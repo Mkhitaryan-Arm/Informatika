@@ -1,1052 +1,1053 @@
-<!DOCTYPE html>
-<html lang="hy">
-<head>
-<meta charset="UTF-8">
-<title>Թվային գրագիտություն և համակարգչային գիտություն</title>
-<style>
-:root{
-  --primary:#4F46E5;
-  --primary-dark:#4338CA;
-  --primary-light:#EEF0FF;
-  --bg:#F6F7FB;
-  --card:#FFFFFF;
-  --text:#1E2233;
-  --muted:#6B7280;
-  --border:#E7E9F3;
-  --blue:#3B82F6;--blue-bg:#DBEAFE;
-  --green:#10B981;--green-bg:#D1FAE5;
-  --orange:#F59E0B;--orange-bg:#FEF3C7;
-  --purple:#8B5CF6;--purple-bg:#EDE9FE;
-  --yellow:#CA8A04;--yellow-bg:#FEF9C3;
-  --red:#EF4444;--red-bg:#FEE2E2;
-  --radius:16px;
-}
-*{box-sizing:border-box;}
-body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);}
-a{text-decoration:none;color:inherit;}
-button{font-family:inherit;cursor:pointer;}
-.hidden{display:none!important;}
-/* ---------- top landing nav ---------- */
-.landing-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;line-height:1.2;}
-.brand .logo{width:42px;height:42px;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:#333;flex-wrap:wrap;}
-.nav-links a.active{color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:4px;}
-.btn{border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;}
-.btn-primary{background:var(--primary);color:#fff;}
-.btn-primary:hover{background:var(--primary-dark);}
-.btn-ghost{background:var(--primary-light);color:var(--primary);}
-.btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--text);}
-.btn-danger{background:var(--red-bg);color:var(--red);}
-.btn-sm{padding:6px 12px;font-size:12.5px;border-radius:8px;}
-/* ---------- hero ---------- */
-.hero{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:60px 60px 40px;max-width:1300px;margin:0 auto;flex-wrap:wrap;}
-.hero-text{flex:1;min-width:300px;}
-.badge-pill{display:inline-block;background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:14px;}
-.hero h1{font-size:40px;line-height:1.25;margin:0 0 16px;}
-.hero p{color:var(--muted);font-size:15.5px;line-height:1.7;max-width:520px;}
-.hero-actions{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;}
-.hero-art{flex:1;min-width:280px;display:flex;justify-content:center;}
-.hero-art svg{width:100%;max-width:420px;}
-.stats-bar{display:flex;justify-content:space-around;background:var(--primary-light);border-radius:18px;padding:22px 10px;max-width:1180px;margin:0 auto 60px;flex-wrap:wrap;gap:16px;}
-.stat{text-align:center;min-width:90px;}
-.stat .num{font-size:24px;font-weight:800;color:var(--primary-dark);}
-.stat .lbl{font-size:12.5px;color:var(--muted);font-weight:600;}
-.section-title{text-align:center;font-size:26px;font-weight:800;margin:50px 0 30px;}
-.modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1180px;margin:0 auto 60px;padding:0 40px;}
-.mcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;transition:.15s;}
-.mcard:hover{box-shadow:0 8px 24px rgba(79,70,229,.12);transform:translateY(-2px);}
-.micon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;}
-.mcard h3{font-size:15px;margin:0 0 8px;min-height:42px;}
-.mcard p{font-size:12.5px;color:var(--muted);margin:0 0 14px;min-height:34px;}
-.mcard .count-pill{background:var(--primary-light);color:var(--primary);border:none;border-radius:20px;padding:8px 16px;font-size:12.5px;font-weight:700;width:100%;display:flex;justify-content:center;align-items:center;gap:6px;}
- 
-/* ---------- app shell (post login pages) ---------- */
-.app-shell{display:flex;min-height:100vh;}
-.sidebar{width:230px;background:#fff;border-right:1px solid var(--border);padding:18px 14px;flex-shrink:0;}
-.sidebar .brand{padding:6px 8px 18px;border-bottom:1px solid var(--border);margin-bottom:14px;}
-.sidenav a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#444;margin-bottom:4px;}
-.sidenav a.active{background:var(--primary-light);color:var(--primary);}
-.sidenav a:hover{background:var(--bg);}
-.app-main{flex:1;min-width:0;}
-.app-topbar{display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border);padding:14px 26px;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:40;}
-.topbar-search{flex:1;max-width:360px;position:relative;}
-.topbar-search input{width:100%;padding:9px 14px 9px 36px;border-radius:10px;border:1px solid var(--border);background:var(--bg);font-size:13.5px;}
-.search-icon{position:absolute;left:11px;top:9px;opacity:.5;font-size:14px;}
-.search-results{position:absolute;background:#fff;border:1px solid var(--border);border-radius:10px;width:100%;top:42px;box-shadow:0 10px 30px rgba(0,0,0,.08);z-index:60;max-height:300px;overflow:auto;}
-.search-results .sr-item{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);cursor:pointer;}
-.search-results .sr-item:hover{background:var(--primary-light);}
-.topbar-right{display:flex;align-items:center;gap:18px;}
-.bell{position:relative;font-size:19px;cursor:pointer;}
-.bell .dot{position:absolute;top:-4px;right:-6px;background:var(--red);color:#fff;font-size:10px;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
-.notif-panel{position:absolute;right:26px;top:58px;background:#fff;border:1px solid var(--border);border-radius:12px;width:320px;box-shadow:0 12px 30px rgba(0,0,0,.1);z-index:70;}
-.notif-panel .ni{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;}
-.notif-panel .ni:last-child{border-bottom:none;}
-.user-chip{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;cursor:pointer;}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
-.role-pill{font-size:10.5px;background:var(--primary-light);color:var(--primary);padding:2px 8px;border-radius:10px;font-weight:700;}
-.page{padding:26px;max-width:1180px;}
-.page h1.pagetitle{font-size:24px;margin:0 0 4px;}
-.page .sub{color:var(--muted);font-size:13.5px;margin:0 0 22px;}
-.cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px;}
-.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px;}
-.stat-card .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;}
-.stat-card .num{font-size:20px;font-weight:800;}
-.stat-card .lbl{font-size:11.5px;color:var(--muted);}
-.panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:22px;}
-.panel h3{margin:0 0 16px;font-size:16px;}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-table th{text-align:right;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;}
-table td{padding:10px 10px;border-bottom:1px solid var(--border);}
-table th:first-child,table td:first-child{text-align:right;}
-.progress-bar-track{background:var(--bg);border-radius:8px;height:8px;width:100%;overflow:hidden;}
-.progress-bar-fill{height:100%;border-radius:8px;}
-.input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:13.5px;font-family:inherit;background:#fff;}
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#444;}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
-.flex{display:flex;}
-.gap8{gap:8px;}.gap12{gap:12px;}
-.center{display:flex;align-items:center;justify-content:center;}
-.between{display:flex;align-items:center;justify-content:space-between;}
-/* topic / quiz */
-.module-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
-.topic-list-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;}
-.topic-list-item:hover{border-color:var(--primary);}
-.topic-list-item.done{background:var(--green-bg);}
-.quiz-opt{display:block;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:9px;cursor:pointer;font-size:13.5px;}
-.quiz-opt:hover{border-color:var(--primary);}
-.quiz-opt.selected{border-color:var(--primary);background:var(--primary-light);}
-.quiz-opt.correct{border-color:var(--green);background:var(--green-bg);}
-.quiz-opt.wrong{border-color:var(--red);background:var(--red-bg);}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1E2233;color:#fff;padding:12px 22px;border-radius:10px;font-size:13.5px;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.2);}
-.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:30px 0;}
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px;}
-.auth-card{background:#fff;border-radius:18px;padding:36px;width:380px;border:1px solid var(--border);}
-.auth-tabs{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:22px;}
-.auth-tabs button{flex:1;padding:9px;border-radius:8px;background:transparent;border:none;font-size:13.5px;font-weight:600;color:var(--muted);}
-.auth-tabs button.active{background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.08);}
-.hint-box{background:var(--primary-light);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--primary-dark);margin-top:14px;line-height:1.6;}
-@media(max-width:780px){
-  .sidebar{display:none;}
-  .hero{padding:40px 20px;}
-  .page{padding:18px;}
-}
-</style>
-</head>
-<body>
-<div id="root"></div>
- 
-<script>
-/* ============================ STORAGE LAYER ============================ */
-/* Falls back to an in-memory store if window.storage isn't present in this
-   environment (e.g. the file opened directly outside the Claude artifact
-   sandbox). This guarantees the app always renders instead of crashing to
-   a blank screen; persistence across reloads only happens when window.storage
-   is actually available. */
-const __mem = {};
-function __hasStorage(){ return typeof window!== 'undefined' && window.storage && typeof window.storage.get==='function'; }
- 
-async function loadOrInit(key, defVal, shared){
-  try{
-    if(__hasStorage()){
-      const r = await window.storage.get(key, shared);
-      return JSON.parse(r.value);
-    } else {
-      const k = key+'::'+shared;
-      if(!(k in __mem)) __mem[k] = JSON.stringify(defVal);
-      return JSON.parse(__mem[k]);
-    }
-  }catch(e){
-    try{
-      if(__hasStorage()) await window.storage.set(key, JSON.stringify(defVal), shared);
-      else __mem[key+'::'+shared] = JSON.stringify(defVal);
-    }catch(e2){ /* ignore */ }
-    return defVal;
+  <!-- <!DOCTYPE html>
+  <html lang="hy">
+  <head>
+  <meta charset="UTF-8">
+  <title>Թվային գրագիտություն և համակարգչային գիտություն</title>
+  <style>
+  :root{
+    --primary:#4F46E5;
+    --primary-dark:#4338CA;
+    --primary-light:#EEF0FF;
+    --bg:#F6F7FB;
+    --card:#FFFFFF;
+    --text:#1E2233;
+    --muted:#6B7280;
+    --border:#E7E9F3;
+    --blue:#3B82F6;--blue-bg:#DBEAFE;
+    --green:#10B981;--green-bg:#D1FAE5;
+    --orange:#F59E0B;--orange-bg:#FEF3C7;
+    --purple:#8B5CF6;--purple-bg:#EDE9FE;
+    --yellow:#CA8A04;--yellow-bg:#FEF9C3;
+    --red:#EF4444;--red-bg:#FEE2E2;
+    --radius:16px;
   }
-}
-async function save(key, val, shared){
-  try{
-    if(__hasStorage()) await window.storage.set(key, JSON.stringify(val), shared);
-    else __mem[key+'::'+shared] = JSON.stringify(val);
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  .hidden{display:none!important;}
+  /* ---------- top landing nav ---------- */
+  .landing-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:10px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;line-height:1.2;}
+  .brand .logo{width:42px;height:42px;border-radius:10px;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .nav-links{display:flex;gap:26px;font-size:14.5px;font-weight:500;color:#333;flex-wrap:wrap;}
+  .nav-links a.active{color:var(--primary);border-bottom:2px solid var(--primary);padding-bottom:4px;}
+  .btn{border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;}
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-ghost{background:var(--primary-light);color:var(--primary);}
+  .btn-outline{background:#fff;border:1.5px solid var(--border);color:var(--text);}
+  .btn-danger{background:var(--red-bg);color:var(--red);}
+  .btn-sm{padding:6px 12px;font-size:12.5px;border-radius:8px;}
+  /* ---------- hero ---------- */
+  .hero{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:60px 60px 40px;max-width:1300px;margin:0 auto;flex-wrap:wrap;}
+  .hero-text{flex:1;min-width:300px;}
+  .badge-pill{display:inline-block;background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:14px;}
+  .hero h1{font-size:40px;line-height:1.25;margin:0 0 16px;}
+  .hero p{color:var(--muted);font-size:15.5px;line-height:1.7;max-width:520px;}
+  .hero-actions{display:flex;gap:14px;margin-top:20px;flex-wrap:wrap;}
+  .hero-art{flex:1;min-width:280px;display:flex;justify-content:center;}
+  .hero-art svg{width:100%;max-width:420px;}
+  .stats-bar{display:flex;justify-content:space-around;background:var(--primary-light);border-radius:18px;padding:22px 10px;max-width:1180px;margin:0 auto 60px;flex-wrap:wrap;gap:16px;}
+  .stat{text-align:center;min-width:90px;}
+  .stat .num{font-size:24px;font-weight:800;color:var(--primary-dark);}
+  .stat .lbl{font-size:12.5px;color:var(--muted);font-weight:600;}
+  .section-title{text-align:center;font-size:26px;font-weight:800;margin:50px 0 30px;}
+  .modules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1180px;margin:0 auto 60px;padding:0 40px;}
+  .mcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px;text-align:center;transition:.15s;}
+  .mcard:hover{box-shadow:0 8px 24px rgba(79,70,229,.12);transform:translateY(-2px);}
+  .micon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px;}
+  .mcard h3{font-size:15px;margin:0 0 8px;min-height:42px;}
+  .mcard p{font-size:12.5px;color:var(--muted);margin:0 0 14px;min-height:34px;}
+  .mcard .count-pill{background:var(--primary-light);color:var(--primary);border:none;border-radius:20px;padding:8px 16px;font-size:12.5px;font-weight:700;width:100%;display:flex;justify-content:center;align-items:center;gap:6px;}
+  
+  /* ---------- app shell (post login pages) ---------- */
+  .app-shell{display:flex;min-height:100vh;}
+  .sidebar{width:230px;background:#fff;border-right:1px solid var(--border);padding:18px 14px;flex-shrink:0;}
+  .sidebar .brand{padding:6px 8px 18px;border-bottom:1px solid var(--border);margin-bottom:14px;}
+  .sidenav a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:600;color:#444;margin-bottom:4px;}
+  .sidenav a.active{background:var(--primary-light);color:var(--primary);}
+  .sidenav a:hover{background:var(--bg);}
+  .app-main{flex:1;min-width:0;}
+  .app-topbar{display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border);padding:14px 26px;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:40;}
+  .topbar-search{flex:1;max-width:360px;position:relative;}
+  .topbar-search input{width:100%;padding:9px 14px 9px 36px;border-radius:10px;border:1px solid var(--border);background:var(--bg);font-size:13.5px;}
+  .search-icon{position:absolute;left:11px;top:9px;opacity:.5;font-size:14px;}
+  .search-results{position:absolute;background:#fff;border:1px solid var(--border);border-radius:10px;width:100%;top:42px;box-shadow:0 10px 30px rgba(0,0,0,.08);z-index:60;max-height:300px;overflow:auto;}
+  .search-results .sr-item{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);cursor:pointer;}
+  .search-results .sr-item:hover{background:var(--primary-light);}
+  .topbar-right{display:flex;align-items:center;gap:18px;}
+  .bell{position:relative;font-size:19px;cursor:pointer;}
+  .bell .dot{position:absolute;top:-4px;right:-6px;background:var(--red);color:#fff;font-size:10px;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;}
+  .notif-panel{position:absolute;right:26px;top:58px;background:#fff;border:1px solid var(--border);border-radius:12px;width:320px;box-shadow:0 12px 30px rgba(0,0,0,.1);z-index:70;}
+  .notif-panel .ni{padding:12px 16px;border-bottom:1px solid var(--border);font-size:13px;}
+  .notif-panel .ni:last-child{border-bottom:none;}
+  .user-chip{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;cursor:pointer;}
+  .avatar{width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;}
+  .role-pill{font-size:10.5px;background:var(--primary-light);color:var(--primary);padding:2px 8px;border-radius:10px;font-weight:700;}
+  .page{padding:26px;max-width:1180px;}
+  .page h1.pagetitle{font-size:24px;margin:0 0 4px;}
+  .page .sub{color:var(--muted);font-size:13.5px;margin:0 0 22px;}
+  .cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:24px;}
+  .stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px;}
+  .stat-card .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;}
+  .stat-card .num{font-size:20px;font-weight:800;}
+  .stat-card .lbl{font-size:11.5px;color:var(--muted);}
+  .panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:22px;}
+  .panel h3{margin:0 0 16px;font-size:16px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  table th{text-align:right;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;}
+  table td{padding:10px 10px;border-bottom:1px solid var(--border);}
+  table th:first-child,table td:first-child{text-align:right;}
+  .progress-bar-track{background:var(--bg);border-radius:8px;height:8px;width:100%;overflow:hidden;}
+  .progress-bar-fill{height:100%;border-radius:8px;}
+  .input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;font-size:13.5px;font-family:inherit;background:#fff;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:#444;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+  .flex{display:flex;}
+  .gap8{gap:8px;}.gap12{gap:12px;}
+  .center{display:flex;align-items:center;justify-content:center;}
+  .between{display:flex;align-items:center;justify-content:space-between;}
+  /* topic / quiz */
+  .module-header{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+  .topic-list-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;}
+  .topic-list-item:hover{border-color:var(--primary);}
+  .topic-list-item.done{background:var(--green-bg);}
+  .quiz-opt{display:block;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:9px;cursor:pointer;font-size:13.5px;}
+  .quiz-opt:hover{border-color:var(--primary);}
+  .quiz-opt.selected{border-color:var(--primary);background:var(--primary-light);}
+  .quiz-opt.correct{border-color:var(--green);background:var(--green-bg);}
+  .quiz-opt.wrong{border-color:var(--red);background:var(--red-bg);}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1E2233;color:#fff;padding:12px 22px;border-radius:10px;font-size:13.5px;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.2);}
+  .empty{text-align:center;color:var(--muted);font-size:13.5px;padding:30px 0;}
+  .auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:20px;}
+  .auth-card{background:#fff;border-radius:18px;padding:36px;width:380px;border:1px solid var(--border);}
+  .auth-tabs{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:22px;}
+  .auth-tabs button{flex:1;padding:9px;border-radius:8px;background:transparent;border:none;font-size:13.5px;font-weight:600;color:var(--muted);}
+  .auth-tabs button.active{background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+  .hint-box{background:var(--primary-light);border-radius:10px;padding:10px 12px;font-size:11.5px;color:var(--primary-dark);margin-top:14px;line-height:1.6;}
+  @media(max-width:780px){
+    .sidebar{display:none;}
+    .hero{padding:40px 20px;}
+    .page{padding:18px;}
   }
-  catch(e){ console.error('storage save failed', key, e); __mem[key+'::'+shared] = JSON.stringify(val); }
-}
- 
-/* ============================ SEED DATA ============================ */
-const seedUsers = [
-  {username:'student1', password:'student123', fullName:'Անի Հակոբյան', role:'student'},
-  {username:'teacher1', password:'teacher123', fullName:'Մարիամ Սարգսյան', role:'teacher'},
-  {username:'admin', password:'admin123', fullName:'Համակարգի ադմին', role:'admin'},
-];
- 
-function q(question, options, correct){ return {question, options, correct}; }
-function topic(id, title, content, quiz){ return {id, title, content, quiz}; }
- 
-const seedModules = [
-  {id:'m1', title:'Թվային գրագիտություն և անվտանգություն', desc:'Զգուշացիր և դաշանասիր քո տվյալները թվային աշխարհում։', icon:'🛡️', color:'blue', topics:[
-    topic('m1t1','Թվային գրագիտության հիմունքները',
-      'Թվային գրագիտությունը նշանակում է կարողանալ վստահ և անվտանգ կերպով օգտվել համակարգիչներից, համացանցից և թվային սարքերից։ Այն ընդգրկում է ֆայլերի կառավարում, տեղեկատվության որոնում և թվային գործիքների ճիշտ կիրառում։',
-      q('Թվային գրագիտությունն առավելապես վերաբերում է...', ['Միայն խաղերին համակարգչում','Թվային սարքերից և համացանցից անվտանգ և արդյունավետ օգտվելու կարողությանը','Միայն ծրագրավորմանը','Միայն տպելու հնարավորությանը'],1)),
-    topic('m1t2','Անվտանգ գաղտնաբառեր և տվյալների պաշտպանություն',
-      'Հզոր գաղտնաբառը պետք է պարունակի մեծատառեր, փոքրատառեր, թվեր և նշաններ, և չպետք է կիրառվի մի քանի կայքերում միաժամանակ։ Կարևոր է նաև երբեք չկիսել գաղտնաբառերը այլոց հետ։',
-      q('Ո՞րն է ամենաանվտանգ գաղտնաբառը?', ['12345678','MyName2010','Tr$7vK#92qLm','password'],2)),
-    topic('m1t3','Համացանցում անվտանգ վարքագիծ',
-      'Համացանցում պետք է զգուշանալ անհայտ հղումներից, չհրապարակել անձնական տվյալներ անծանոթների հետ և ստուգել կայքերի վստահելիությունը մինչև տվյալներ մուտքագրելը։',
-      q('Ինչ պետք է անել, եթե անհայտ էլ.նամակում կա կասկածելի հղում?', ['Անմիջապես սեղմել հղումը','Ուղարկել ընկերներին','Չսեղմել և ստուգել ուղարկողին','Պատասխանել նամակին գաղտնաբառով'],2)),
-  ]},
-  {id:'m2', title:'Աղյուսակային գործիքներ', desc:'Սովորիր աշխատել տաղավարների, աղյուսակների, բլրուների հետ։', icon:'📊', color:'green', topics:[
-    topic('m2t1','Աղյուսակի հիմունքները',
-      'Աղյուսակը կազմված է տողերից և սյունակներից, որոնց հատման կետը կոչվում է բջիջ։ Յուրաքանչյուր բջիջ ունի իր եզակի հասցեն, օրինակ՝ A1, B2։',
-      q('Ինչպես է կոչվում տողի և սյունակի հատման կետը?', ['Աղյուսակ','Բջիջ','Թերթիկ','Բանաձև'],1)),
-    topic('m2t2','Բանաձևեր և ֆունկցիաներ',
-      'Աղյուսակային ծրագրերում կարող ենք օգտագործել ֆունկցիաներ, ինչպիսիք են SUM (գումարում) և AVERAGE (միջին թվաբանական), ավտոմատ հաշվարկներ կատարելու համար։',
-      q('=SUM(A1:A5) բանաձևը ի՞նչ է անում?', ['Հաշվում է A1-ից A5 բջիջների գումարը','Ջնջում է բջիջները','Հաշվում է միջինը','Ստեղծում է գրաֆիկ'],0)),
-    topic('m2t3','Գրաֆիկներ և դիագրամներ',
-      'Տվյալները տեսանելի դարձնելու համար օգտագործվում են գրաֆիկներ և դիագրամներ՝ սյունակային, գծային, շրջանաձև, որոնք հեշտացնում են համեմատությունն ու վերլուծությունը։',
-      q('Ո՞ր դիագրամի տեսակն է հարմար ընդհանուրից տոկոսային բաշխումը ցույց տալու համար?', ['Գծային','Շրջանաձև (pie chart)','Սյունակային','Կետային'],1)),
-  ]},
-  {id:'m3', title:'Համակարգչային համակցեր', desc:'Իմացիր համակարգչի կառուցվածքի և սարքերի մասին։', icon:'🖥️', color:'orange', topics:[
-    topic('m3t1','Համակարգչի հիմնական մասերը',
-      'Համակարգչի կենտրոնական մասը կազմված է պրոցեսորից (CPU), հիշողությունից (RAM) և կրիչից (SSD/HDD), որոնք միասին ապահովում են տվյալների մշակումն ու պահպանումը։',
-      q('Ո՞րն է համակարգչի «ուղեղը», որ կատարում է հաշվարկները?', ['RAM','CPU (պրոցեսոր)','Մկնիկ','Մոնիտոր'],1)),
-    topic('m3t2','Մուտքային և ելքային սարքեր',
-      'Մուտքային սարքերը (ստեղնաշար, մկնիկ, սկաներ) տվյալներ են փոխանցում համակարգչին, իսկ ելքային սարքերը (մոնիտոր, տպիչ, բարձրախոս) ցույց են տալիս արդյունքները։',
-      q('Ո՞րը ելքային սարք է?', ['Ստեղնաշար','Մկնիկ','Մոնիտոր','Սկաներ'],2)),
-    topic('m3t3','Օպերացիոն համակարգեր',
-      'Օպերացիոն համակարգը (Windows, macOS, Linux) կառավարում է համակարգչի ողջ աշխատանքը և թույլ է տալիս գործարկել ծրագրեր ու կառավարել ֆայլեր։',
-      q('Ո՞րը օպերացիոն համակարգ չէ?', ['Windows','macOS','Linux','Microsoft Word'],3)),
-  ]},
-  {id:'m4', title:'Ցանցեր', desc:'Իմացիր ինտերնետի կառուցվածքի և սարքերի կապի մասին։', icon:'🌐', color:'purple', topics:[
-    topic('m4t1','Համացանցի և Wi-Fi հիմունքները',
-      'Համացանցը հազարավոր ցանցերի միավորում է, որով տվյալները փոխանցվում են ողջ աշխարհով։ Wi-Fi-ն թույլ է տալիս սարքերին անլար կերպով միանալ ցանցին։',
-      q('Wi-Fi-ն ապահովում է...', ['Մալուխային կապ միայն','Անլար կապ ինտերնետին','Միայն տպելու հնարավորություն','Համակարգչի սառեցում'],1)),
-    topic('m4t2','Ցանցային անվտանգություն',
-      'Հանրային Wi-Fi-ից օգտվելիս պետք է զգուշանալ զգայուն տվյալներ մուտքագրելուց և կիրառել VPN կամ ապահով կապեր (HTTPS), երբ հնարավոր է։',
-      q('Ո՞րը նշանակում է ապահով կապակցում կայքի հետ?', ['http://','https://','ftp://','www.'],1)),
-  ]},
-  {id:'m5', title:'Ալգորիթմներ և ծրագրավորում', desc:'Ամրացրու տրամաբանական մտածողությունդ Python ծրագրավորման ճանապարհով։', icon:'⌨️', color:'yellow', topics:[
-    topic('m5t1','Ալգորիթմ հասկացությունը',
-      'Ալգորիթմը խնդրի լուծման քայլերի հստակ և վերջավոր հաջորդականություն է։ Լավ ալգորիթմը պարզ, ճշգրիտ և կրկնելի է։',
-      q('Ալգորիթմը հենքում է...', ['Պատահական գործողություններ','Քայլերի հստակ հաջորդականություն','Միայն մաթեմատիկական բանաձևեր','Համակարգչային վիրուս'],1)),
-    topic('m5t2','Հաջորդականություն, ընտրություն, կրկնություն',
-      'Ծրագրավորման երեք հիմնական կառուցվածքները՝ հաջորդական կատարում, պայմանական ընտրություն (if) և կրկնություն (ցիկլեր), կազմում են ցանկացած ալգորիթմի հենքը։',
-      q('Ո՞րը ծրագրավորման հիմնական կառուցվածքներից չէ?', ['Հաջորդականություն','Ընտրություն','Կրկնություն','Տպագրություն'],3)),
-    topic('m5t3','Փոփոխականներ և տվյալների տիպեր',
-      'Փոփոխականը հիշողության տեղ է, որտեղ պահվում է արժեք։ Python-ում հիմնական տիպերն են՝ int (ամբողջ թիվ), float (տասնորդական), str (տեքստ), bool (տրամաբանական)։',
-      q('age = 14 տողում «age»-ը ի՞նչ է?', ['Ֆունկցիա','Փոփոխական','Ցիկլ','Մեկնաբանություն'],1)),
-    topic('m5t4','Պայմանական կառուցվածքներ (if/else)',
-      'if/else կառուցվածքն օգնում է ծրագրին որոշում կայացնել՝ կախված պայմանի ճշմարիտ կամ սխալ լինելուց։',
-      q('if grade >= 90 պայմանը ճշմարիտ է, երբ...', ['grade-ը 90-ից փոքր է','grade-ը 90 կամ ավելի է','grade-ը բացասական է','grade-ը տեքստ է'],1)),
-    topic('m5t5','Ցիկլեր (for/while)',
-      'Ցիկլերը թույլ են տալիս կրկնել գործողություն մի քանի անգամ։ for ցիկլը կիրառվում է հաշված կրկնությունների համար, while-ը՝ պայմանի կատարման ընթացքում։',
-      q('for i in range(5): ցիկլը կկրկնվի...', ['3 անգամ','4 անգամ','5 անգամ','Անվերջ'],2)),
-    topic('m5t6','Ֆունկցիաներ',
-      'Ֆունկցիան կոդի անվանված հատված է, որը կարող ենք բազմիցս կանչել։ Այն ընդունում է մուտքային արգումենտներ և կարող է վերադարձնել արժեք։',
-      q('Ֆունկցիայի հիմնական առավելությունն է...', ['Կոդը դարձնում է ավելի դանդաղ','Կոդի կրկնման կրճատում և կազմակերպում','Ջնջում է փոփոխականները','Ավելացնում է սխալներ'],1)),
-    topic('m5t7','Մասիվներ (ցուցակներ)',
-      'Ցուցակը (list) թույլ է տալիս մի փոփոխականում պահել մի քանի արժեքներ։ Python-ում՝ fruits = ["խնձոր","տանձ","բանան"]։',
-      q('fruits[0] արտահայտությունը կվերադարձնի...', ['Ցուցակի վերջին տարրը','Ցուցակի առաջին տարրը','Ցուցակի երկարությունը','Սխալ'],1)),
-    topic('m5t8','Python ծրագրավորման հիմունքները',
-      'Python-ը պարզ և ընթերցանելի ծրագրավորման լեզու է, որը կիրառվում է վեբ կայքերի, արհեստական բանականության և տվյալների վերլուծության մեջ։ print("Բարև") հրամանը արտածում է տեքստ էկրանին։',
-      q('print("Բարև") հրամանի արդյունքն է...', ['Ստեղծում է ֆայլ','Արտածում է «Բարև» էկրանին','Ջնջում է փոփոխական','Բացում է բրաուզեր'],1)),
-  ]},
-];
- 
-const seedNotifications = [
-  {id:'n1', text:'Բարի գալուստ կայք։ Սկսիր ուսուցումը «Մոդուլներ» բաժնից։', date:new Date().toISOString()},
-];
- 
-/* ============================ STATE ============================ */
-let DB = { users:[], modules:[], feedback:[], notifications:[] };
-let CURRENT_USER = null; // {username, fullName, role}
-let STATE = { page:'home', moduleId:null, topicId:null, testModuleId:null, quizAnswers:{}, quizSubmitted:false, notifOpen:false, userMenuOpen:false, authTab:'login', authRole:'student', authError:'', searchQuery:'', toast:null };
- 
-const MODCOLORS = {blue:'blue',green:'green',orange:'orange',purple:'purple',yellow:'yellow'};
- 
-function allTopics(){ return DB.modules.flatMap(m=>m.topics.map(t=>({...t, moduleId:m.id, moduleTitle:m.title}))); }
-function findModule(id){ return DB.modules.find(m=>m.id===id); }
-function findTopic(tid){ for(const m of DB.modules){ const t=m.topics.find(t=>t.id===tid); if(t) return {topic:t, module:m}; } return null; }
- 
-async function getResults(username){ return await loadOrInit('app:results:'+username, [], true); }
-async function getProgress(username){ return await loadOrInit('app:progress:'+username, {completedTopics:[]}, true); }
-async function saveResults(username, arr){ await save('app:results:'+username, arr, true); }
-async function saveProgress(username, obj){ await save('app:progress:'+username, obj, true); }
- 
-function showToast(msg){ STATE.toast = msg; render(); setTimeout(()=>{ STATE.toast=null; render(); }, 2400); }
- 
-/* ============================ INIT ============================ */
-async function init(){
-  try{
-    DB.users = await loadOrInit('app:users', seedUsers, true);
-    DB.modules = await loadOrInit('app:modules', seedModules, true);
-    DB.feedback = await loadOrInit('app:feedback', [], true);
-    DB.notifications = await loadOrInit('app:notifications', seedNotifications, true);
+  </style>
+  </head>
+  <body>
+  <div id="root"></div>
+  
+  <script>
+  /* ============================ STORAGE LAYER ============================ */
+  /* Falls back to an in-memory store if window.storage isn't present in this
+    environment (e.g. the file opened directly outside the Claude artifact
+    sandbox). This guarantees the app always renders instead of crashing to
+    a blank screen; persistence across reloads only happens when window.storage
+    is actually available. */
+  const __mem = {};
+  function __hasStorage(){ return typeof window!== 'undefined' && window.storage && typeof window.storage.get==='function'; }
+  
+  async function loadOrInit(key, defVal, shared){
     try{
-      let uname = null;
       if(__hasStorage()){
-        const r = await window.storage.get('session:current', false);
-        uname = JSON.parse(r.value);
+        const r = await window.storage.get(key, shared);
+        return JSON.parse(r.value);
       } else {
-        uname = __mem['session:current::false'] ? JSON.parse(__mem['session:current::false']) : null;
+        const k = key+'::'+shared;
+        if(!(k in __mem)) __mem[k] = JSON.stringify(defVal);
+        return JSON.parse(__mem[k]);
       }
-      const u = DB.users.find(x=>x.username===uname);
-      if(u) CURRENT_USER = {username:u.username, fullName:u.fullName, role:u.role};
-    }catch(e){ /* no session */ }
-  }catch(err){
-    console.error('init failed', err);
-    DB.users = seedUsers; DB.modules = seedModules; DB.feedback = []; DB.notifications = seedNotifications;
+    }catch(e){
+      try{
+        if(__hasStorage()) await window.storage.set(key, JSON.stringify(defVal), shared);
+        else __mem[key+'::'+shared] = JSON.stringify(defVal);
+      }catch(e2){ /* ignore */ }
+      return defVal;
+    }
   }
-  render();
-}
-window.addEventListener('error', function(e){
-  const root = document.getElementById('root');
-  if(root && !root.innerHTML.trim()){
-    root.innerHTML = '<div style="padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;">'+
-      '<h2>Մի փոքր խնդիր առաջացավ</h2><p style="color:#666;font-size:13px;">'+esc(String(e.message||e))+'</p>'+
-      '<button onclick="location.reload()" style="margin-top:10px;padding:8px 16px;border-radius:8px;border:none;background:#4F46E5;color:#fff;cursor:pointer;">Թարմացնել էջը</button></div>';
+  async function save(key, val, shared){
+    try{
+      if(__hasStorage()) await window.storage.set(key, JSON.stringify(val), shared);
+      else __mem[key+'::'+shared] = JSON.stringify(val);
+    }
+    catch(e){ console.error('storage save failed', key, e); __mem[key+'::'+shared] = JSON.stringify(val); }
   }
-});
- 
-/* ============================ AUTH ============================ */
-async function doLogin(username, password){
-  const u = DB.users.find(x=>x.username===username && x.password===password);
-  if(!u){ STATE.authError='Սխալ մուտքանուն կամ գաղտնաբառ։'; render(); return; }
-  CURRENT_USER = {username:u.username, fullName:u.fullName, role:u.role};
-  await save('session:current', u.username, false);
-  STATE.authError=''; STATE.page='home';
-  render();
-}
-async function doRegister(fullName, username, password, role){
-  if(!fullName || !username || !password){ STATE.authError='Խնդրում ենք լրացնել բոլոր դաշտերը։'; render(); return; }
-  if(DB.users.some(u=>u.username===username)){ STATE.authError='Այս մուտքանունն արդեն գրանցված է։'; render(); return; }
-  const u = {username, password, fullName, role};
-  DB.users.push(u);
-  await save('app:users', DB.users, true);
-  CURRENT_USER = {username, fullName, role};
-  await save('session:current', username, false);
-  STATE.authError=''; STATE.page='home';
-  render();
-}
-async function doLogout(){
-  CURRENT_USER = null;
-  await save('session:current', '', false);
-  STATE.page='home'; STATE.userMenuOpen=false;
-  render();
-}
- 
-/* ============================ NAVIGATION ============================ */
-function goto(page, extra){
-  STATE.page = page;
-  STATE.notifOpen=false; STATE.userMenuOpen=false;
-  if(extra) Object.assign(STATE, extra);
-  window.scrollTo(0,0);
-  render();
-}
- 
-/* ============================ RENDER HELPERS ============================ */
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
- 
-function landingNav(){
-  const links = [
-    ['home','Գլխավոր'],['modulesPublic','Մոդուլներ'],['testsPublic','Թեստեր'],['about','Մեր մասին'],
+  
+  /* ============================ SEED DATA ============================ */
+  const seedUsers = [
+    {username:'student1', password:'student123', fullName:'Անի Հակոբյան', role:'student'},
+    {username:'teacher1', password:'teacher123', fullName:'Մարիամ Սարգսյան', role:'teacher'},
+    {username:'admin', password:'admin123', fullName:'Համակարգի ադմին', role:'admin'},
   ];
-  return `
-  <div class="landing-nav">
-    <div class="brand"><div class="logo">📖</div><div>ԹՎԱՅԻՆ ԳՐԱԳԻՏՈՒԹՅՈՒՆ<br>ԵՎ ՀԱՄԱԿԱՐԳՉԱՅԻՆ ԳԻՏՈՒԹՅՈՒՆ</div></div>
-    <div class="nav-links">
-      ${links.map(([p,l])=>`<a href="#" class="${STATE.page===p?'active':''}" onclick="goto('${p}');return false;">${l}</a>`).join('')}
-    </div>
-    ${CURRENT_USER ? `<button class="btn btn-primary" onclick="goto('${CURRENT_USER.role==='student'?'modules':'teacherDash'}')">Անցնել կաբինետ →</button>`
-    : `<button class="btn btn-primary" onclick="goto('auth')">🔑 Մուտք</button>`}
-  </div>`;
-}
- 
-function heroArt(){
-  return `<svg viewBox="0 0 420 320" fill="none">
-    <rect x="60" y="40" width="300" height="190" rx="14" fill="var(--primary-light)"/>
-    <rect x="80" y="60" width="260" height="150" rx="8" fill="#fff" stroke="var(--border)"/>
-    <rect x="95" y="78" width="120" height="10" rx="3" fill="var(--primary)"/>
-    <rect x="95" y="98" width="160" height="8" rx="3" fill="#D7DAEE"/>
-    <rect x="95" y="114" width="140" height="8" rx="3" fill="#D7DAEE"/>
-    <rect x="95" y="140" width="230" height="50" rx="8" fill="var(--primary-light)"/>
-    <circle cx="115" cy="165" r="12" fill="var(--primary)"/>
-    <rect x="135" y="158" width="100" height="7" rx="3" fill="var(--primary)"/>
-    <rect x="135" y="170" width="70" height="6" rx="3" fill="#A9AFE0"/>
-    <circle cx="345" cy="55" r="26" fill="var(--green-bg)"/>
-    <text x="345" y="63" font-size="22" text-anchor="middle">✓</text>
-    <circle cx="55" cy="220" r="24" fill="var(--orange-bg)"/>
-    <text x="55" y="228" font-size="20" text-anchor="middle">⚙️</text>
-  </svg>`;
-}
- 
-function home(){
-  const total = allTopics().length;
-  return `
-  ${landingNav()}
-  <div class="hero">
-    <div class="hero-text">
-      <span class="badge-pill">8-րդ դասարան</span>
-      <h1>Սովորիր, կերտիր, ստեղծիր թվային աշխարհում</h1>
-      <p>Հետաքրքիր և ինտերակտիվ դասեր կօգնեն քեզ գարգացնել թվային հմտություններն ու շանակել համակարգչային գիտության հիմունքները։</p>
-      <div class="hero-actions">
-        <button class="btn btn-primary" onclick="goto('${CURRENT_USER?'modules':'auth'}')">📘 Սկսել ուսումը</button>
-        <button class="btn btn-outline" onclick="goto('about')">▶ Ինչպես օգտադործել</button>
-      </div>
-    </div>
-    <div class="hero-art">${heroArt()}</div>
-  </div>
-  <div class="stats-bar">
-    <div class="stat"><div class="num">${total}</div><div class="lbl">ԹԵՄԱ</div></div>
-    <div class="stat"><div class="num">${DB.modules.length}</div><div class="lbl">ՄՈԴՈՒԼ</div></div>
-    <div class="stat"><div class="num">${total*4}+</div><div class="lbl">ԻՆՏԵՐԱԿՏԻՎ ՎԱՐԺՈՒԹՅՈՒՆ</div></div>
-    <div class="stat"><div class="num">${DB.users.filter(u=>u.role==='student').length}</div><div class="lbl">ԳՐԱՆՑՎԱԾ ԱՇԱԿԵՐՏ</div></div>
-  </div>
-  <div class="section-title">Մոդուլներ</div>
-  <div class="modules-grid">
-    ${DB.modules.map(m=>`
-      <div class="mcard">
-        <div class="micon" style="background:var(--${m.color}-bg)">${m.icon}</div>
-        <h3>${esc(m.title)}</h3>
-        <p>${esc(m.desc)}</p>
-        <button class="count-pill" onclick="goto('${CURRENT_USER?'moduleView':'auth'}', {moduleId:'${m.id}'})">${m.topics.length} թեմա →</button>
-      </div>`).join('')}
-  </div>
-  ${footer()}
-  `;
-}
- 
-function footer(){
-  return `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px 0;border-top:1px solid var(--border);">© 2026 Թվային գրագիտություն և համակարգչային գիտություն · 8-րդ դասարան</div>`;
-}
- 
-function about(){
-  return `
-  ${landingNav()}
-  <div class="page" style="max-width:760px;margin:0 auto;">
-    <h1 class="pagetitle">Մեր մասին</h1>
-    <p class="sub">Կայքի նպատակը, մշակման հիմքերը և կիրառման ոլորտը</p>
-    <div class="panel">
-      <p style="line-height:1.8;font-size:14.5px;">Այս կայքը մշակվել է 8-րդ դասարանի «Թվային գրագիտություն և համակարգչային գիտություն» առարկայի ուսուցումը աջակցելու համար։ Կայքը թույլ է տալիս աշակերտներին անցնել ինտերակտիվ դասեր, ստուգել գիտելիքները թեստերի միջոցով և հետևել իրենց առաջընթացին, իսկ ուսուցիչներին՝ կառավարել նյութերը և գնահատել արդյունքները։</p>
-    </div>
-    <div class="panel">
-      <h3>📩 Կապ մեզ հետ</h3>
-      <div id="feedbackForm">
-        <div class="field"><label>Անուն</label><input class="input" id="fbName"></div>
-        <div class="field"><label>Էլ.փոստ</label><input class="input" id="fbEmail"></div>
-        <div class="field"><label>Հաղորդագրություն</label><textarea class="input" id="fbMsg" rows="4"></textarea></div>
-        <button class="btn btn-primary" onclick="submitFeedback()">Ուղարկել</button>
-      </div>
-    </div>
-  </div>
-  ${footer()}
-  `;
-}
- 
-async function submitFeedback(){
-  const name = document.getElementById('fbName').value.trim();
-  const email = document.getElementById('fbEmail').value.trim();
-  const msg = document.getElementById('fbMsg').value.trim();
-  if(!name||!msg){ showToast('Խնդրում ենք լրացնել անունը և հաղորդագրությունը'); return; }
-  DB.feedback.push({name,email,message:msg,date:new Date().toISOString()});
-  await save('app:feedback', DB.feedback, true);
-  showToast('Շնորհակալություն, ձեր հաղորդագրությունը ուղարկվեց✓');
-  goto('about');
-}
- 
-/* ---------- AUTH PAGE ---------- */
-function authPage(){
-  return `
-  <div class="auth-wrap">
-    <div class="auth-card">
-      <div class="brand" style="margin-bottom:18px;justify-content:center;"><div class="logo">📖</div></div>
-      <div class="auth-tabs">
-        <button class="${STATE.authTab==='login'?'active':''}" onclick="STATE.authTab='login';STATE.authError='';render();">Մուտք</button>
-        <button class="${STATE.authTab==='register'?'active':''}" onclick="STATE.authTab='register';STATE.authError='';render();">Գրանցում</button>
-      </div>
-      ${STATE.authTab==='login'? loginForm() : registerForm()}
-      ${STATE.authError? `<div style="color:var(--red);font-size:12.5px;margin-top:10px;">${esc(STATE.authError)}</div>`:''}
-     
-    </div>
-  </div>`;
-}
-function loginForm(){
-  return `
-  <div class="field"><label>Մուտքանուն</label><input class="input" id="loginUser"></div>
-  <div class="field"><label>Գաղտնաբառ</label><input type="password" class="input" id="loginPass"></div>
-  <button class="btn btn-primary" style="width:100%;" onclick="doLogin(document.getElementById('loginUser').value.trim(),document.getElementById('loginPass').value)">Մուտք գործել</button>`;
-}
-function registerForm(){
-  return `
-  <div class="field"><label>Անուն Ազգանուն</label><input class="input" id="regName"></div>
-  <div class="field"><label>Մուտքանուն</label><input class="input" id="regUser"></div>
-  <div class="field"><label>Գաղտնաբառ</label><input type="password" class="input" id="regPass"></div>
-  <div class="field"><label>Դեր</label>
-    <select id="regRole" class="input">
-      <option value="student">Աշակերտ</option>
-      <option value="teacher">Ուսուցիչ</option>
-    </select>
-  </div>
-  <button class="btn btn-primary" style="width:100%;" onclick="doRegister(document.getElementById('regName').value.trim(),document.getElementById('regUser').value.trim(),document.getElementById('regPass').value,document.getElementById('regRole').value)">Գրանցվել</button>`;
-}
- 
-/* ---------- APP SHELL (logged-in pages) ---------- */
-function sideNavLinks(){
-  if(CURRENT_USER.role==='student'){
-    return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['tests','📝','Թեստեր'],['progress','📈','Առաջընթաց'],['about','ℹ️','Մեր մասին']];
+  
+  function q(question, options, correct){ return {question, options, correct}; }
+  function topic(id, title, content, quiz){ return {id, title, content, quiz}; }
+  
+  const seedModules = [
+    {id:'m1', title:'Թվային գրագիտություն և անվտանգություն', desc:'Զգուշացիր և դաշանասիր քո տվյալները թվային աշխարհում։', icon:'🛡️', color:'blue', topics:[
+      topic('m1t1','Թվային գրագիտության հիմունքները',
+        'Թվային գրագիտությունը նշանակում է կարողանալ վստահ և անվտանգ կերպով օգտվել համակարգիչներից, համացանցից և թվային սարքերից։ Այն ընդգրկում է ֆայլերի կառավարում, տեղեկատվության որոնում և թվային գործիքների ճիշտ կիրառում։',
+        q('Թվային գրագիտությունն առավելապես վերաբերում է...', ['Միայն խաղերին համակարգչում','Թվային սարքերից և համացանցից անվտանգ և արդյունավետ օգտվելու կարողությանը','Միայն ծրագրավորմանը','Միայն տպելու հնարավորությանը'],1)),
+      topic('m1t2','Անվտանգ գաղտնաբառեր և տվյալների պաշտպանություն',
+        'Հզոր գաղտնաբառը պետք է պարունակի մեծատառեր, փոքրատառեր, թվեր և նշաններ, և չպետք է կիրառվի մի քանի կայքերում միաժամանակ։ Կարևոր է նաև երբեք չկիսել գաղտնաբառերը այլոց հետ։',
+        q('Ո՞րն է ամենաանվտանգ գաղտնաբառը?', ['12345678','MyName2010','Tr$7vK#92qLm','password'],2)),
+      topic('m1t3','Համացանցում անվտանգ վարքագիծ',
+        'Համացանցում պետք է զգուշանալ անհայտ հղումներից, չհրապարակել անձնական տվյալներ անծանոթների հետ և ստուգել կայքերի վստահելիությունը մինչև տվյալներ մուտքագրելը։',
+        q('Ինչ պետք է անել, եթե անհայտ էլ.նամակում կա կասկածելի հղում?', ['Անմիջապես սեղմել հղումը','Ուղարկել ընկերներին','Չսեղմել և ստուգել ուղարկողին','Պատասխանել նամակին գաղտնաբառով'],2)),
+    ]},
+    {id:'m2', title:'Աղյուսակային գործիքներ', desc:'Սովորիր աշխատել տաղավարների, աղյուսակների, բլրուների հետ։', icon:'📊', color:'green', topics:[
+      topic('m2t1','Աղյուսակի հիմունքները',
+        'Աղյուսակը կազմված է տողերից և սյունակներից, որոնց հատման կետը կոչվում է բջիջ։ Յուրաքանչյուր բջիջ ունի իր եզակի հասցեն, օրինակ՝ A1, B2։',
+        q('Ինչպես է կոչվում տողի և սյունակի հատման կետը?', ['Աղյուսակ','Բջիջ','Թերթիկ','Բանաձև'],1)),
+      topic('m2t2','Բանաձևեր և ֆունկցիաներ',
+        'Աղյուսակային ծրագրերում կարող ենք օգտագործել ֆունկցիաներ, ինչպիսիք են SUM (գումարում) և AVERAGE (միջին թվաբանական), ավտոմատ հաշվարկներ կատարելու համար։',
+        q('=SUM(A1:A5) բանաձևը ի՞նչ է անում?', ['Հաշվում է A1-ից A5 բջիջների գումարը','Ջնջում է բջիջները','Հաշվում է միջինը','Ստեղծում է գրաֆիկ'],0)),
+      topic('m2t3','Գրաֆիկներ և դիագրամներ',
+        'Տվյալները տեսանելի դարձնելու համար օգտագործվում են գրաֆիկներ և դիագրամներ՝ սյունակային, գծային, շրջանաձև, որոնք հեշտացնում են համեմատությունն ու վերլուծությունը։',
+        q('Ո՞ր դիագրամի տեսակն է հարմար ընդհանուրից տոկոսային բաշխումը ցույց տալու համար?', ['Գծային','Շրջանաձև (pie chart)','Սյունակային','Կետային'],1)),
+    ]},
+    {id:'m3', title:'Համակարգչային համակցեր', desc:'Իմացիր համակարգչի կառուցվածքի և սարքերի մասին։', icon:'🖥️', color:'orange', topics:[
+      topic('m3t1','Համակարգչի հիմնական մասերը',
+        'Համակարգչի կենտրոնական մասը կազմված է պրոցեսորից (CPU), հիշողությունից (RAM) և կրիչից (SSD/HDD), որոնք միասին ապահովում են տվյալների մշակումն ու պահպանումը։',
+        q('Ո՞րն է համակարգչի «ուղեղը», որ կատարում է հաշվարկները?', ['RAM','CPU (պրոցեսոր)','Մկնիկ','Մոնիտոր'],1)),
+      topic('m3t2','Մուտքային և ելքային սարքեր',
+        'Մուտքային սարքերը (ստեղնաշար, մկնիկ, սկաներ) տվյալներ են փոխանցում համակարգչին, իսկ ելքային սարքերը (մոնիտոր, տպիչ, բարձրախոս) ցույց են տալիս արդյունքները։',
+        q('Ո՞րը ելքային սարք է?', ['Ստեղնաշար','Մկնիկ','Մոնիտոր','Սկաներ'],2)),
+      topic('m3t3','Օպերացիոն համակարգեր',
+        'Օպերացիոն համակարգը (Windows, macOS, Linux) կառավարում է համակարգչի ողջ աշխատանքը և թույլ է տալիս գործարկել ծրագրեր ու կառավարել ֆայլեր։',
+        q('Ո՞րը օպերացիոն համակարգ չէ?', ['Windows','macOS','Linux','Microsoft Word'],3)),
+    ]},
+    {id:'m4', title:'Ցանցեր', desc:'Իմացիր ինտերնետի կառուցվածքի և սարքերի կապի մասին։', icon:'🌐', color:'purple', topics:[
+      topic('m4t1','Համացանցի և Wi-Fi հիմունքները',
+        'Համացանցը հազարավոր ցանցերի միավորում է, որով տվյալները փոխանցվում են ողջ աշխարհով։ Wi-Fi-ն թույլ է տալիս սարքերին անլար կերպով միանալ ցանցին։',
+        q('Wi-Fi-ն ապահովում է...', ['Մալուխային կապ միայն','Անլար կապ ինտերնետին','Միայն տպելու հնարավորություն','Համակարգչի սառեցում'],1)),
+      topic('m4t2','Ցանցային անվտանգություն',
+        'Հանրային Wi-Fi-ից օգտվելիս պետք է զգուշանալ զգայուն տվյալներ մուտքագրելուց և կիրառել VPN կամ ապահով կապեր (HTTPS), երբ հնարավոր է։',
+        q('Ո՞րը նշանակում է ապահով կապակցում կայքի հետ?', ['http://','https://','ftp://','www.'],1)),
+    ]},
+    {id:'m5', title:'Ալգորիթմներ և ծրագրավորում', desc:'Ամրացրու տրամաբանական մտածողությունդ Python ծրագրավորման ճանապարհով։', icon:'⌨️', color:'yellow', topics:[
+      topic('m5t1','Ալգորիթմ հասկացությունը',
+        'Ալգորիթմը խնդրի լուծման քայլերի հստակ և վերջավոր հաջորդականություն է։ Լավ ալգորիթմը պարզ, ճշգրիտ և կրկնելի է։',
+        q('Ալգորիթմը հենքում է...', ['Պատահական գործողություններ','Քայլերի հստակ հաջորդականություն','Միայն մաթեմատիկական բանաձևեր','Համակարգչային վիրուս'],1)),
+      topic('m5t2','Հաջորդականություն, ընտրություն, կրկնություն',
+        'Ծրագրավորման երեք հիմնական կառուցվածքները՝ հաջորդական կատարում, պայմանական ընտրություն (if) և կրկնություն (ցիկլեր), կազմում են ցանկացած ալգորիթմի հենքը։',
+        q('Ո՞րը ծրագրավորման հիմնական կառուցվածքներից չէ?', ['Հաջորդականություն','Ընտրություն','Կրկնություն','Տպագրություն'],3)),
+      topic('m5t3','Փոփոխականներ և տվյալների տիպեր',
+        'Փոփոխականը հիշողության տեղ է, որտեղ պահվում է արժեք։ Python-ում հիմնական տիպերն են՝ int (ամբողջ թիվ), float (տասնորդական), str (տեքստ), bool (տրամաբանական)։',
+        q('age = 14 տողում «age»-ը ի՞նչ է?', ['Ֆունկցիա','Փոփոխական','Ցիկլ','Մեկնաբանություն'],1)),
+      topic('m5t4','Պայմանական կառուցվածքներ (if/else)',
+        'if/else կառուցվածքն օգնում է ծրագրին որոշում կայացնել՝ կախված պայմանի ճշմարիտ կամ սխալ լինելուց։',
+        q('if grade >= 90 պայմանը ճշմարիտ է, երբ...', ['grade-ը 90-ից փոքր է','grade-ը 90 կամ ավելի է','grade-ը բացասական է','grade-ը տեքստ է'],1)),
+      topic('m5t5','Ցիկլեր (for/while)',
+        'Ցիկլերը թույլ են տալիս կրկնել գործողություն մի քանի անգամ։ for ցիկլը կիրառվում է հաշված կրկնությունների համար, while-ը՝ պայմանի կատարման ընթացքում։',
+        q('for i in range(5): ցիկլը կկրկնվի...', ['3 անգամ','4 անգամ','5 անգամ','Անվերջ'],2)),
+      topic('m5t6','Ֆունկցիաներ',
+        'Ֆունկցիան կոդի անվանված հատված է, որը կարող ենք բազմիցս կանչել։ Այն ընդունում է մուտքային արգումենտներ և կարող է վերադարձնել արժեք։',
+        q('Ֆունկցիայի հիմնական առավելությունն է...', ['Կոդը դարձնում է ավելի դանդաղ','Կոդի կրկնման կրճատում և կազմակերպում','Ջնջում է փոփոխականները','Ավելացնում է սխալներ'],1)),
+      topic('m5t7','Մասիվներ (ցուցակներ)',
+        'Ցուցակը (list) թույլ է տալիս մի փոփոխականում պահել մի քանի արժեքներ։ Python-ում՝ fruits = ["խնձոր","տանձ","բանան"]։',
+        q('fruits[0] արտահայտությունը կվերադարձնի...', ['Ցուցակի վերջին տարրը','Ցուցակի առաջին տարրը','Ցուցակի երկարությունը','Սխալ'],1)),
+      topic('m5t8','Python ծրագրավորման հիմունքները',
+        'Python-ը պարզ և ընթերցանելի ծրագրավորման լեզու է, որը կիրառվում է վեբ կայքերի, արհեստական բանականության և տվյալների վերլուծության մեջ։ print("Բարև") հրամանը արտածում է տեքստ էկրանին։',
+        q('print("Բարև") հրամանի արդյունքն է...', ['Ստեղծում է ֆայլ','Արտածում է «Բարև» էկրանին','Ջնջում է փոփոխական','Բացում է բրաուզեր'],1)),
+    ]},
+  ];
+  
+  const seedNotifications = [
+    {id:'n1', text:'Բարի գալուստ կայք։ Սկսիր ուսուցումը «Մոդուլներ» բաժնից։', date:new Date().toISOString()},
+  ];
+  
+  /* ============================ STATE ============================ */
+  let DB = { users:[], modules:[], feedback:[], notifications:[] };
+  let CURRENT_USER = null; // {username, fullName, role}
+  let STATE = { page:'home', moduleId:null, topicId:null, testModuleId:null, quizAnswers:{}, quizSubmitted:false, notifOpen:false, userMenuOpen:false, authTab:'login', authRole:'student', authError:'', searchQuery:'', toast:null };
+  
+  const MODCOLORS = {blue:'blue',green:'green',orange:'orange',purple:'purple',yellow:'yellow'};
+  
+  function allTopics(){ return DB.modules.flatMap(m=>m.topics.map(t=>({...t, moduleId:m.id, moduleTitle:m.title}))); }
+  function findModule(id){ return DB.modules.find(m=>m.id===id); }
+  function findTopic(tid){ for(const m of DB.modules){ const t=m.topics.find(t=>t.id===tid); if(t) return {topic:t, module:m}; } return null; }
+  
+  async function getResults(username){ return await loadOrInit('app:results:'+username, [], true); }
+  async function getProgress(username){ return await loadOrInit('app:progress:'+username, {completedTopics:[]}, true); }
+  async function saveResults(username, arr){ await save('app:results:'+username, arr, true); }
+  async function saveProgress(username, obj){ await save('app:progress:'+username, obj, true); }
+  
+  function showToast(msg){ STATE.toast = msg; render(); setTimeout(()=>{ STATE.toast=null; render(); }, 2400); }
+  
+  /* ============================ INIT ============================ */
+  async function init(){
+    try{
+      DB.users = await loadOrInit('app:users', seedUsers, true);
+      DB.modules = await loadOrInit('app:modules', seedModules, true);
+      DB.feedback = await loadOrInit('app:feedback', [], true);
+      DB.notifications = await loadOrInit('app:notifications', seedNotifications, true);
+      try{
+        let uname = null;
+        if(__hasStorage()){
+          const r = await window.storage.get('session:current', false);
+          uname = JSON.parse(r.value);
+        } else {
+          uname = __mem['session:current::false'] ? JSON.parse(__mem['session:current::false']) : null;
+        }
+        const u = DB.users.find(x=>x.username===uname);
+        if(u) CURRENT_USER = {username:u.username, fullName:u.fullName, role:u.role};
+      }catch(e){ /* no session */ }
+    }catch(err){
+      console.error('init failed', err);
+      DB.users = seedUsers; DB.modules = seedModules; DB.feedback = []; DB.notifications = seedNotifications;
+    }
+    render();
   }
-  if(CURRENT_USER.role==='teacher'){
-    return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['tests','📝','Թեստեր'],['teacherDash','🧑‍🏫','Ուսուցչի վահանակ'],['about','ℹ️','Մեր մասին']];
+  window.addEventListener('error', function(e){
+    const root = document.getElementById('root');
+    if(root && !root.innerHTML.trim()){
+      root.innerHTML = '<div style="padding:40px;font-family:sans-serif;max-width:600px;margin:0 auto;">'+
+        '<h2>Մի փոքր խնդիր առաջացավ</h2><p style="color:#666;font-size:13px;">'+esc(String(e.message||e))+'</p>'+
+        '<button onclick="location.reload()" style="margin-top:10px;padding:8px 16px;border-radius:8px;border:none;background:#4F46E5;color:#fff;cursor:pointer;">Թարմացնել էջը</button></div>';
+    }
+  });
+  
+  /* ============================ AUTH ============================ */
+  async function doLogin(username, password){
+    const u = DB.users.find(x=>x.username===username && x.password===password);
+    if(!u){ STATE.authError='Սխալ մուտքանուն կամ գաղտնաբառ։'; render(); return; }
+    CURRENT_USER = {username:u.username, fullName:u.fullName, role:u.role};
+    await save('session:current', u.username, false);
+    STATE.authError=''; STATE.page='home';
+    render();
   }
-  return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['teacherDash','🧑‍🏫','Ուսուցչի վահանակ'],['adminDash','🛠️','Ադմին վահանակ'],['about','ℹ️','Մեր մասին']];
-}
- 
-function appShell(innerHtml){
-  const initials = (CURRENT_USER.fullName||CURRENT_USER.username).split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
-  const roleLabel = {student:'Աշակերտ',teacher:'Ուսուցիչ',admin:'Ադմին'}[CURRENT_USER.role];
-  const searchMatches = STATE.searchQuery.trim().length>0 ? searchContent(STATE.searchQuery) : [];
-  return `
-  <div class="app-shell">
-    <div class="sidebar">
-      <div class="brand"><div class="logo">📖</div><div style="font-size:12px;">ԹՎԱՅԻՆ ԳՐԱԳԻՏՈՒԹՅՈՒՆ</div></div>
-      <div class="sidenav">
-        ${sideNavLinks().map(([p,icon,label])=>`<a href="#" class="${STATE.page===p?'active':''}" onclick="goto('${p}');return false;">${icon} ${label}</a>`).join('')}
-        <a href="#" onclick="doLogout();return false;" style="color:var(--red);margin-top:10px;">🚪 Դուրս գալ</a>
+  async function doRegister(fullName, username, password, role){
+    if(!fullName || !username || !password){ STATE.authError='Խնդրում ենք լրացնել բոլոր դաշտերը։'; render(); return; }
+    if(DB.users.some(u=>u.username===username)){ STATE.authError='Այս մուտքանունն արդեն գրանցված է։'; render(); return; }
+    const u = {username, password, fullName, role};
+    DB.users.push(u);
+    await save('app:users', DB.users, true);
+    CURRENT_USER = {username, fullName, role};
+    await save('session:current', username, false);
+    STATE.authError=''; STATE.page='home';
+    render();
+  }
+  async function doLogout(){
+    CURRENT_USER = null;
+    await save('session:current', '', false);
+    STATE.page='home'; STATE.userMenuOpen=false;
+    render();
+  }
+  
+  /* ============================ NAVIGATION ============================ */
+  function goto(page, extra){
+    STATE.page = page;
+    STATE.notifOpen=false; STATE.userMenuOpen=false;
+    if(extra) Object.assign(STATE, extra);
+    window.scrollTo(0,0);
+    render();
+  }
+  
+  /* ============================ RENDER HELPERS ============================ */
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  
+  function landingNav(){
+    const links = [
+      ['home','Գլխավոր'],['modulesPublic','Մոդուլներ'],['testsPublic','Թեստեր'],['about','Մեր մասին'],
+    ];
+    return `
+    <div class="landing-nav">
+      <div class="brand"><div class="logo">📖</div><div>ԹՎԱՅԻՆ ԳՐԱԳԻՏՈՒԹՅՈՒՆ<br>ԵՎ ՀԱՄԱԿԱՐԳՉԱՅԻՆ ԳԻՏՈՒԹՅՈՒՆ</div></div>
+      <div class="nav-links">
+        ${links.map(([p,l])=>`<a href="#" class="${STATE.page===p?'active':''}" onclick="goto('${p}');return false;">${l}</a>`).join('')}
       </div>
-    </div>
-    <div class="app-main">
-      <div class="app-topbar">
-        <div class="topbar-search">
-          <span class="search-icon">🔎</span>
-          <input class="input" placeholder="Որոնել մոդուլներ, թեմաներ..." value="${esc(STATE.searchQuery)}" oninput="STATE.searchQuery=this.value;render();">
-          ${searchMatches.length>0?`<div class="search-results">${searchMatches.map(t=>`<div class="sr-item" onclick="STATE.searchQuery='';goto('topicView',{moduleId:'${t.moduleId}',topicId:'${t.id}'})"><b>${esc(t.title)}</b><br><span style="color:var(--muted);font-size:11.5px;">${esc(t.moduleTitle)}</span></div>`).join('')}</div>`:''}
-        </div>
-        <div class="topbar-right">
-          <div class="bell" onclick="STATE.notifOpen=!STATE.notifOpen;STATE.userMenuOpen=false;render();">
-            🔔 ${DB.notifications.length>0?`<span class="dot">${DB.notifications.length}</span>`:''}
-            ${STATE.notifOpen?`<div class="notif-panel" onclick="event.stopPropagation();">
-              ${DB.notifications.slice().reverse().map(n=>`<div class="ni">${esc(n.text)}<div style="color:var(--muted);font-size:11px;margin-top:3px;">${new Date(n.date).toLocaleDateString('hy-AM')}</div></div>`).join('') || '<div class="ni">Ծանուցումներ չկան</div>'}
-            </div>`:''}
-          </div>
-          <div class="user-chip" onclick="STATE.userMenuOpen=!STATE.userMenuOpen;STATE.notifOpen=false;render();">
-            <div class="avatar">${initials}</div>
-            <div>${esc(CURRENT_USER.fullName)}<br><span class="role-pill">${roleLabel}</span></div>
-          </div>
+      ${CURRENT_USER ? `<button class="btn btn-primary" onclick="goto('${CURRENT_USER.role==='student'?'modules':'teacherDash'}')">Անցնել կաբինետ →</button>`
+      : `<button class="btn btn-primary" onclick="goto('auth')">🔑 Մուտք</button>`}
+    </div>`;
+  }
+  
+  function heroArt(){
+    return `<svg viewBox="0 0 420 320" fill="none">
+      <rect x="60" y="40" width="300" height="190" rx="14" fill="var(--primary-light)"/>
+      <rect x="80" y="60" width="260" height="150" rx="8" fill="#fff" stroke="var(--border)"/>
+      <rect x="95" y="78" width="120" height="10" rx="3" fill="var(--primary)"/>
+      <rect x="95" y="98" width="160" height="8" rx="3" fill="#D7DAEE"/>
+      <rect x="95" y="114" width="140" height="8" rx="3" fill="#D7DAEE"/>
+      <rect x="95" y="140" width="230" height="50" rx="8" fill="var(--primary-light)"/>
+      <circle cx="115" cy="165" r="12" fill="var(--primary)"/>
+      <rect x="135" y="158" width="100" height="7" rx="3" fill="var(--primary)"/>
+      <rect x="135" y="170" width="70" height="6" rx="3" fill="#A9AFE0"/>
+      <circle cx="345" cy="55" r="26" fill="var(--green-bg)"/>
+      <text x="345" y="63" font-size="22" text-anchor="middle">✓</text>
+      <circle cx="55" cy="220" r="24" fill="var(--orange-bg)"/>
+      <text x="55" y="228" font-size="20" text-anchor="middle">⚙️</text>
+    </svg>`;
+  }
+  
+  function home(){
+    const total = allTopics().length;
+    return `
+    ${landingNav()}
+    <div class="hero">
+      <div class="hero-text">
+        <span class="badge-pill">8-րդ դասարան</span>
+        <h1>Սովորիր, կերտիր, ստեղծիր թվային աշխարհում</h1>
+        <p>Հետաքրքիր և ինտերակտիվ դասեր կօգնեն քեզ գարգացնել թվային հմտություններն ու շանակել համակարգչային գիտության հիմունքները։</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="goto('${CURRENT_USER?'modules':'auth'}')">📘 Սկսել ուսումը</button>
+          <button class="btn btn-outline" onclick="goto('about')">▶ Ինչպես օգտադործել</button>
         </div>
       </div>
-      ${innerHtml}
+      <div class="hero-art">${heroArt()}</div>
     </div>
-  </div>`;
-}
- 
-function searchContent(query){
-  const ql = query.toLowerCase();
-  return allTopics().filter(t=> t.title.toLowerCase().includes(ql) || t.content.toLowerCase().includes(ql) || t.moduleTitle.toLowerCase().includes(ql)).slice(0,8);
-}
- 
-/* ---------- MODULES PAGE ---------- */
-function modulesPage(){
-  const body = `
-  <div class="page">
-    <h1 class="pagetitle">Մոդուլներ</h1>
-    <p class="sub">Ընտրիր մոդուլ և սովորիր թեմա առ թեմա</p>
-    <div class="modules-grid" style="padding:0;max-width:none;">
-      ${DB.modules.map(m=>{
-        const done = completedCountIn(m);
-        return `<div class="mcard">
+    <div class="stats-bar">
+      <div class="stat"><div class="num">${total}</div><div class="lbl">ԹԵՄԱ</div></div>
+      <div class="stat"><div class="num">${DB.modules.length}</div><div class="lbl">ՄՈԴՈՒԼ</div></div>
+      <div class="stat"><div class="num">${total*4}+</div><div class="lbl">ԻՆՏԵՐԱԿՏԻՎ ՎԱՐԺՈՒԹՅՈՒՆ</div></div>
+      <div class="stat"><div class="num">${DB.users.filter(u=>u.role==='student').length}</div><div class="lbl">ԳՐԱՆՑՎԱԾ ԱՇԱԿԵՐՏ</div></div>
+    </div>
+    <div class="section-title">Մոդուլներ</div>
+    <div class="modules-grid">
+      ${DB.modules.map(m=>`
+        <div class="mcard">
           <div class="micon" style="background:var(--${m.color}-bg)">${m.icon}</div>
           <h3>${esc(m.title)}</h3>
           <p>${esc(m.desc)}</p>
-          <div class="progress-bar-track" style="margin-bottom:10px;"><div class="progress-bar-fill" style="width:${Math.round(done/m.topics.length*100)}%;background:var(--${m.color});"></div></div>
-          <button class="count-pill" onclick="goto('moduleView',{moduleId:'${m.id}'})">${m.topics.length} թեմա · ${done} ավարտված →</button>
-        </div>`;
-      }).join('')}
+          <button class="count-pill" onclick="goto('${CURRENT_USER?'moduleView':'auth'}', {moduleId:'${m.id}'})">${m.topics.length} թեմա →</button>
+        </div>`).join('')}
     </div>
-  </div>`;
-  return CURRENT_USER ? appShell(body) : `${landingNav()}${body}${footer()}`;
-}
-function completedCountIn(m){
-  if(!CURRENT_USER) return 0;
-  const cached = window.__progressCache && window.__progressCache[CURRENT_USER.username];
-  if(!cached) return 0;
-  return m.topics.filter(t=>cached.completedTopics.includes(t.id)).length;
-}
- 
-/* ---------- MODULE VIEW (topic list) ---------- */
-function moduleView(){
-  const m = findModule(STATE.moduleId);
-  if(!m) return modulesPage();
-  const cached = window.__progressCache && CURRENT_USER ? window.__progressCache[CURRENT_USER.username] : null;
-  const body = `
-  <div class="page">
-    <a href="#" onclick="goto('modules');return false;" style="font-size:12.5px;color:var(--muted);">← Բոլոր մոդուլները</a>
-    <div class="module-header" style="margin-top:10px;">
-      <div class="micon" style="background:var(--${m.color}-bg);width:46px;height:46px;">${m.icon}</div>
-      <div><h1 class="pagetitle" style="margin:0;">${esc(m.title)}</h1><p class="sub" style="margin:2px 0 0;">${esc(m.desc)}</p></div>
-    </div>
-    <div class="panel">
-      <h3>Թեմաներ (${m.topics.length})</h3>
-      ${m.topics.map((t,i)=>{
-        const done = cached && cached.completedTopics.includes(t.id);
-        return `<div class="topic-list-item ${done?'done':''}" onclick="goto('topicView',{moduleId:'${m.id}',topicId:'${t.id}'})">
-          <div>${i+1}. ${esc(t.title)}</div>
-          <div>${done?'✅ ավարտված':'▶'}</div>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`;
-  return appShell(body);
-}
- 
-/* ---------- TOPIC VIEW (lesson) ---------- */
-function topicView(){
-  const found = findTopic(STATE.topicId);
-  if(!found) return moduleView();
-  const {topic:t, module:m} = found;
-  const idx = m.topics.findIndex(x=>x.id===t.id);
-  const prev = m.topics[idx-1], next = m.topics[idx+1];
-  const cached = window.__progressCache ? window.__progressCache[CURRENT_USER.username] : {completedTopics:[]};
-  const done = cached.completedTopics.includes(t.id);
-  const qa = STATE.quizAnswers[t.id];
-  const submitted = STATE.quizSubmitted===t.id;
-  const body = `
-  <div class="page" style="max-width:760px;">
-    <a href="#" onclick="goto('moduleView',{moduleId:'${m.id}'});return false;" style="font-size:12.5px;color:var(--muted);">← ${esc(m.title)}</a>
-    <h1 class="pagetitle" style="margin-top:10px;">${esc(t.title)}</h1>
-    <div class="panel">
-      <p style="line-height:1.85;font-size:14.5px;">${esc(t.content)}</p>
-    </div>
-    <div class="panel">
-      <h3>📝 Ինքնաստուգման հարց</h3>
-      <p style="font-weight:600;font-size:13.5px;margin-bottom:12px;">${esc(t.quiz.question)}</p>
-      ${t.quiz.options.map((opt,i)=>{
-        let cls='quiz-opt';
-        if(submitted){
-          if(i===t.quiz.correct) cls+=' correct';
-          else if(qa===i) cls+=' wrong';
-        } else if(qa===i) cls+=' selected';
-        return `<div class="${cls}" onclick="${submitted?'':`STATE.quizAnswers['${t.id}']=${i};render();`}">${esc(opt)}</div>`;
-      }).join('')}
-      ${!submitted? `<button class="btn btn-primary btn-sm" style="margin-top:8px;" ${qa===undefined?'disabled':''} onclick="STATE.quizSubmitted='${t.id}';render();">Ստուգել պատասխանը</button>`
-      : `<div style="margin-top:8px;font-size:13px;color:${qa===t.quiz.correct?'var(--green)':'var(--red)'};font-weight:600;">${qa===t.quiz.correct?'✓ Ճիշտ է!':'✗ Սխալ է, ճիշտ պատասխանը նշված է կանաչով։'}</div>`}
-    </div>
-    <div class="between" style="margin-top:6px;">
-      <div>${prev?`<button class="btn btn-outline" onclick="STATE.quizSubmitted=false;goto('topicView',{moduleId:'${m.id}',topicId:'${prev.id}'})">← Նախորդ թեմա</button>`:''}</div>
-      <div class="flex gap8">
-        <button class="btn ${done?'btn-outline':'btn-ghost'}" onclick="markComplete('${m.id}','${t.id}')">${done?'✅ Ավարտված':'Նշել որպես ավարտված'}</button>
-        ${next?`<button class="btn btn-primary" onclick="STATE.quizSubmitted=false;goto('topicView',{moduleId:'${m.id}',topicId:'${next.id}'})">Հաջորդ թեմա →</button>`:`<button class="btn btn-primary" onclick="goto('moduleView',{moduleId:'${m.id}'})">Ավարտել մոդուլը ✓</button>`}
-      </div>
-    </div>
-  </div>`;
-  return appShell(body);
-}
- 
-async function markComplete(moduleId, topicId){
-  const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
-  if(!prog.completedTopics.includes(topicId)){
-    prog.completedTopics.push(topicId);
-    prog.lastActivity = {type:'topic', topicId, moduleId, date:new Date().toISOString()};
-    window.__progressCache[CURRENT_USER.username]=prog;
-    await saveProgress(CURRENT_USER.username, prog);
-    showToast('Թեման նշվեց որպես ավարտված ✓');
+    ${footer()}
+    `;
   }
-  render();
-}
- 
-/* ---------- TESTS PAGE ---------- */
-function testsPage(){
-  const results = window.__resultsCache ? (window.__resultsCache[CURRENT_USER?.username]||[]) : [];
-  const body = `
-  <div class="page">
-    <h1 class="pagetitle">Թեստեր</h1>
-    <p class="sub">Ստուգիր քո գիտելիքները ըստ մոդուլների</p>
-    <div class="modules-grid" style="padding:0;max-width:none;">
-      ${DB.modules.map(m=>{
-        const best = results.filter(r=>r.moduleId===m.id).sort((a,b)=>b.score-a.score)[0];
-        return `<div class="mcard">
-          <div class="micon" style="background:var(--${m.color}-bg)">${m.icon}</div>
-          <h3>${esc(m.title)} — թեստ</h3>
-          <p>${m.topics.length} հարց · ${best? 'Լավագույն արդյունք '+best.score+'/'+best.total : 'Չի անցել'}</p>
-          <button class="count-pill" onclick="goto('testTake',{testModuleId:'${m.id}',quizAnswers:{},quizSubmitted:false})">${best?'Կրկնել թեստը':'Սկսել թեստը'} →</button>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`;
-  return appShell(body);
-}
- 
-function testTake(){
-  const m = findModule(STATE.testModuleId);
-  if(!m) return testsPage();
-  const submitted = STATE.quizSubmitted===true;
-  let score=0;
-  if(submitted){ m.topics.forEach(t=>{ if(STATE.quizAnswers[t.id]===t.quiz.correct) score++; }); }
-  const body = `
-  <div class="page" style="max-width:760px;">
-    <a href="#" onclick="goto('tests');return false;" style="font-size:12.5px;color:var(--muted);">← Բոլոր թեստերը</a>
-    <h1 class="pagetitle" style="margin-top:10px;">${esc(m.title)} — թեստ</h1>
-    <p class="sub">${m.topics.length} հարց</p>
-    ${m.topics.map((t,i)=>{
-      const qa = STATE.quizAnswers[t.id];
-      return `<div class="panel">
-        <p style="font-weight:600;font-size:13.5px;margin-bottom:12px;">${i+1}. ${esc(t.quiz.question)}</p>
-        ${t.quiz.options.map((opt,oi)=>{
-          let cls='quiz-opt';
-          if(submitted){ if(oi===t.quiz.correct) cls+=' correct'; else if(qa===oi) cls+=' wrong'; }
-          else if(qa===oi) cls+=' selected';
-          return `<div class="${cls}" onclick="${submitted?'':`STATE.quizAnswers['${t.id}']=${oi};render();`}">${esc(opt)}</div>`;
-        }).join('')}
-      </div>`;
-    }).join('')}
-    ${!submitted ?
-      `<button class="btn btn-primary" style="width:100%;" ${Object.keys(STATE.quizAnswers).length<m.topics.length?'disabled':''} onclick="submitTest('${m.id}')">Հանձնել թեստը</button>
-       <p class="sub" style="text-align:center;margin-top:8px;">${Object.keys(STATE.quizAnswers).length}/${m.topics.length} հարցին պատասխանված</p>`
-      : `<div class="panel center" style="flex-direction:column;">
-          <div style="font-size:30px;font-weight:800;color:var(--primary);">${score}/${m.topics.length}</div>
-          <div class="sub">Ձեր արդյունքը պահպանվեց</div>
-          <div class="flex gap12" style="margin-top:10px;">
-            <button class="btn btn-outline" onclick="goto('testTake',{testModuleId:'${m.id}',quizAnswers:{},quizSubmitted:false})">Կրկնել թեստը</button>
-            <button class="btn btn-primary" onclick="goto('progress')">Տեսնել առաջընթացը</button>
-          </div>
-        </div>`}
-  </div>`;
-  return appShell(body);
-}
- 
-async function submitTest(moduleId){
-  const m = findModule(moduleId);
-  let score=0;
-  m.topics.forEach(t=>{ if(STATE.quizAnswers[t.id]===t.quiz.correct) score++; });
-  STATE.quizSubmitted = true;
-  const results = window.__resultsCache[CURRENT_USER.username] || [];
-  results.push({moduleId, moduleTitle:m.title, score, total:m.topics.length, date:new Date().toISOString()});
-  window.__resultsCache[CURRENT_USER.username]=results;
-  await saveResults(CURRENT_USER.username, results);
-  const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
-  prog.lastActivity = {type:'test', moduleId, score, total:m.topics.length, date:new Date().toISOString()};
-  window.__progressCache[CURRENT_USER.username]=prog;
-  await saveProgress(CURRENT_USER.username, prog);
-  render();
-}
- 
-/* ---------- PROGRESS PAGE ---------- */
-function progressPage(){
-  const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
-  const results = window.__resultsCache[CURRENT_USER.username] || [];
-  const totalTopics = allTopics().length;
-  const completed = prog.completedTopics.length;
-  const pct = totalTopics? Math.round(completed/totalTopics*100):0;
-  const avgScore = results.length? Math.round(results.reduce((s,r)=>s+r.score/r.total*100,0)/results.length):0;
- 
-  const donutR=70, circ=2*Math.PI*donutR;
-  const doneLen = circ*pct/100;
- 
-  const last7 = results.slice(-7);
-  const chartW=540, chartH=200, pad=30;
-  let chartSvg='<div class="empty">Դեռ թեստ չեք հանձնել</div>';
-  if(last7.length){
-    const maxScore = 100;
-    const stepX = last7.length>1 ? (chartW-2*pad)/(last7.length-1) : 0;
-    const pts = last7.map((r,i)=>{
-      const pctScore = Math.round(r.score/r.total*100);
-      const x = pad + i*stepX;
-      const y = chartH-pad - (pctScore/maxScore)*(chartH-2*pad);
-      return {x,y,pctScore};
-    });
-    const line = pts.map(p=>`${p.x},${p.y}`).join(' ');
-    chartSvg = `<svg viewBox="0 0 ${chartW} ${chartH}" style="width:100%;height:200px;">
-      ${[0,25,50,75,100].map(v=>{const y=chartH-pad-(v/100)*(chartH-2*pad); return `<line x1="${pad}" y1="${y}" x2="${chartW-pad}" y2="${y}" stroke="#EEF0F5"/><text x="2" y="${y+4}" font-size="9" fill="#9AA">${v}%</text>`}).join('')}
-      <polyline points="${line}" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
-      ${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--primary)"/>`).join('')}
-    </svg>`;
+  
+  function footer(){
+    return `<div style="text-align:center;color:var(--muted);font-size:12px;padding:30px 0;border-top:1px solid var(--border);">© 2026 Թվային գրագիտություն և համակարգչային գիտություն · 8-րդ դասարան</div>`;
   }
- 
-  const lastAct = prog.lastActivity;
-  let lastActText = 'Դեռ ակտիվություն չկա';
-  if(lastAct){
-    if(lastAct.type==='topic'){ const tt=findTopic(lastAct.topicId); lastActText = `Ավարտեցիք «${esc(tt?tt.topic.title:'')}» թեման՝ ${new Date(lastAct.date).toLocaleDateString('hy-AM')}`; }
-    else { lastActText = `Հանձնեցիք թեստը (${lastAct.score}/${lastAct.total}) ${new Date(lastAct.date).toLocaleDateString('hy-AM')}`; }
-  }
- 
-  const body = `
-  <div class="page">
-    <h1 class="pagetitle">Իմ առաջընթացը</h1>
-    <p class="sub">Հետևեք ձեր առաջընթացին և արդյունքներին</p>
-    <div class="cards-row">
-      <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">📘</div><div><div class="num">${totalTopics}</div><div class="lbl">Ընդհանուր թեմաներ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--green-bg);">✅</div><div><div class="num">${completed}</div><div class="lbl">Ավարտված թեմաներ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">📝</div><div><div class="num">${results.length}</div><div class="lbl">Հանձնված թեստեր</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">⭐</div><div><div class="num">${avgScore}%</div><div class="lbl">Միջին արդյունք</div></div></div>
-    </div>
-    <div class="row2">
-      <div class="panel center" style="flex-direction:column;">
-        <h3 style="align-self:flex-start;">Ընդհանուր առաջընթաց</h3>
-        <svg viewBox="0 0 180 180" width="180" height="180">
-          <circle cx="90" cy="90" r="${donutR}" fill="none" stroke="#EEF0F5" stroke-width="16"/>
-          <circle cx="90" cy="90" r="${donutR}" fill="none" stroke="var(--primary)" stroke-width="16" stroke-dasharray="${doneLen} ${circ}" stroke-linecap="round" transform="rotate(-90 90 90)"/>
-          <text x="90" y="84" text-anchor="middle" font-size="26" font-weight="800" fill="var(--text)">${pct}%</text>
-          <text x="90" y="104" text-anchor="middle" font-size="10" fill="var(--muted)">ավարտված</text>
-        </svg>
-        <div style="font-size:12.5px;color:var(--muted);margin-top:8px;">${completed} / ${totalTopics} թեմա ավարտված</div>
+  
+  function about(){
+    return `
+    ${landingNav()}
+    <div class="page" style="max-width:760px;margin:0 auto;">
+      <h1 class="pagetitle">Մեր մասին</h1>
+      <p class="sub">Կայքի նպատակը, մշակման հիմքերը և կիրառման ոլորտը</p>
+      <div class="panel">
+        <p style="line-height:1.8;font-size:14.5px;">Այս կայքը մշակվել է 8-րդ դասարանի «Թվային գրագիտություն և համակարգչային գիտություն» առարկայի ուսուցումը աջակցելու համար։ Կայքը թույլ է տալիս աշակերտներին անցնել ինտերակտիվ դասեր, ստուգել գիտելիքները թեստերի միջոցով և հետևել իրենց առաջընթացին, իսկ ուսուցիչներին՝ կառավարել նյութերը և գնահատել արդյունքները։</p>
       </div>
       <div class="panel">
-        <h3>Մոդուլների առաջընթաց</h3>
+        <h3>📩 Կապ մեզ հետ</h3>
+        <div id="feedbackForm">
+          <div class="field"><label>Անուն</label><input class="input" id="fbName"></div>
+          <div class="field"><label>Էլ.փոստ</label><input class="input" id="fbEmail"></div>
+          <div class="field"><label>Հաղորդագրություն</label><textarea class="input" id="fbMsg" rows="4"></textarea></div>
+          <button class="btn btn-primary" onclick="submitFeedback()">Ուղարկել</button>
+        </div>
+      </div>
+    </div>
+    ${footer()}
+    `;
+  }
+  
+  async function submitFeedback(){
+    const name = document.getElementById('fbName').value.trim();
+    const email = document.getElementById('fbEmail').value.trim();
+    const msg = document.getElementById('fbMsg').value.trim();
+    if(!name||!msg){ showToast('Խնդրում ենք լրացնել անունը և հաղորդագրությունը'); return; }
+    DB.feedback.push({name,email,message:msg,date:new Date().toISOString()});
+    await save('app:feedback', DB.feedback, true);
+    showToast('Շնորհակալություն, ձեր հաղորդագրությունը ուղարկվեց✓');
+    goto('about');
+  }
+  
+  /* ---------- AUTH PAGE ---------- */
+  function authPage(){
+    return `
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <div class="brand" style="margin-bottom:18px;justify-content:center;"><div class="logo">📖</div></div>
+        <div class="auth-tabs">
+          <button class="${STATE.authTab==='login'?'active':''}" onclick="STATE.authTab='login';STATE.authError='';render();">Մուտք</button>
+          <button class="${STATE.authTab==='register'?'active':''}" onclick="STATE.authTab='register';STATE.authError='';render();">Գրանցում</button>
+        </div>
+        ${STATE.authTab==='login'? loginForm() : registerForm()}
+        ${STATE.authError? `<div style="color:var(--red);font-size:12.5px;margin-top:10px;">${esc(STATE.authError)}</div>`:''}
+      
+      </div>
+    </div>`;
+  }
+  function loginForm(){
+    return `
+    <div class="field"><label>Մուտքանուն</label><input class="input" id="loginUser"></div>
+    <div class="field"><label>Գաղտնաբառ</label><input type="password" class="input" id="loginPass"></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="doLogin(document.getElementById('loginUser').value.trim(),document.getElementById('loginPass').value)">Մուտք գործել</button>`;
+  }
+  function registerForm(){
+    return `
+    <div class="field"><label>Անուն Ազգանուն</label><input class="input" id="regName"></div>
+    <div class="field"><label>Մուտքանուն</label><input class="input" id="regUser"></div>
+    <div class="field"><label>Գաղտնաբառ</label><input type="password" class="input" id="regPass"></div>
+    <div class="field"><label>Դեր</label>
+      <select id="regRole" class="input">
+        <option value="student">Աշակերտ</option>
+        <option value="teacher">Ուսուցիչ</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="width:100%;" onclick="doRegister(document.getElementById('regName').value.trim(),document.getElementById('regUser').value.trim(),document.getElementById('regPass').value,document.getElementById('regRole').value)">Գրանցվել</button>`;
+  }
+  
+  /* ---------- APP SHELL (logged-in pages) ---------- */
+  function sideNavLinks(){
+    if(CURRENT_USER.role==='student'){
+      return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['tests','📝','Թեստեր'],['progress','📈','Առաջընթաց'],['about','ℹ️','Մեր մասին']];
+    }
+    if(CURRENT_USER.role==='teacher'){
+      return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['tests','📝','Թեստեր'],['teacherDash','🧑‍🏫','Ուսուցչի վահանակ'],['about','ℹ️','Մեր մասին']];
+    }
+    return [['home','🏠','Գլխավոր'],['modules','📘','Մոդուլներ'],['teacherDash','🧑‍🏫','Ուսուցչի վահանակ'],['adminDash','🛠️','Ադմին վահանակ'],['about','ℹ️','Մեր մասին']];
+  }
+  
+  function appShell(innerHtml){
+    const initials = (CURRENT_USER.fullName||CURRENT_USER.username).split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase();
+    const roleLabel = {student:'Աշակերտ',teacher:'Ուսուցիչ',admin:'Ադմին'}[CURRENT_USER.role];
+    const searchMatches = STATE.searchQuery.trim().length>0 ? searchContent(STATE.searchQuery) : [];
+    return `
+    <div class="app-shell">
+      <div class="sidebar">
+        <div class="brand"><div class="logo">📖</div><div style="font-size:12px;">ԹՎԱՅԻՆ ԳՐԱԳԻՏՈՒԹՅՈՒՆ</div></div>
+        <div class="sidenav">
+          ${sideNavLinks().map(([p,icon,label])=>`<a href="#" class="${STATE.page===p?'active':''}" onclick="goto('${p}');return false;">${icon} ${label}</a>`).join('')}
+          <a href="#" onclick="doLogout();return false;" style="color:var(--red);margin-top:10px;">🚪 Դուրս գալ</a>
+        </div>
+      </div>
+      <div class="app-main">
+        <div class="app-topbar">
+          <div class="topbar-search">
+            <span class="search-icon">🔎</span>
+            <input class="input" placeholder="Որոնել մոդուլներ, թեմաներ..." value="${esc(STATE.searchQuery)}" oninput="STATE.searchQuery=this.value;render();">
+            ${searchMatches.length>0?`<div class="search-results">${searchMatches.map(t=>`<div class="sr-item" onclick="STATE.searchQuery='';goto('topicView',{moduleId:'${t.moduleId}',topicId:'${t.id}'})"><b>${esc(t.title)}</b><br><span style="color:var(--muted);font-size:11.5px;">${esc(t.moduleTitle)}</span></div>`).join('')}</div>`:''}
+          </div>
+          <div class="topbar-right">
+            <div class="bell" onclick="STATE.notifOpen=!STATE.notifOpen;STATE.userMenuOpen=false;render();">
+              🔔 ${DB.notifications.length>0?`<span class="dot">${DB.notifications.length}</span>`:''}
+              ${STATE.notifOpen?`<div class="notif-panel" onclick="event.stopPropagation();">
+                ${DB.notifications.slice().reverse().map(n=>`<div class="ni">${esc(n.text)}<div style="color:var(--muted);font-size:11px;margin-top:3px;">${new Date(n.date).toLocaleDateString('hy-AM')}</div></div>`).join('') || '<div class="ni">Ծանուցումներ չկան</div>'}
+              </div>`:''}
+            </div>
+            <div class="user-chip" onclick="STATE.userMenuOpen=!STATE.userMenuOpen;STATE.notifOpen=false;render();">
+              <div class="avatar">${initials}</div>
+              <div>${esc(CURRENT_USER.fullName)}<br><span class="role-pill">${roleLabel}</span></div>
+            </div>
+          </div>
+        </div>
+        ${innerHtml}
+      </div>
+    </div>`;
+  }
+  
+  function searchContent(query){
+    const ql = query.toLowerCase();
+    return allTopics().filter(t=> t.title.toLowerCase().includes(ql) || t.content.toLowerCase().includes(ql) || t.moduleTitle.toLowerCase().includes(ql)).slice(0,8);
+  }
+  
+  /* ---------- MODULES PAGE ---------- */
+  function modulesPage(){
+    const body = `
+    <div class="page">
+      <h1 class="pagetitle">Մոդուլներ</h1>
+      <p class="sub">Ընտրիր մոդուլ և սովորիր թեմա առ թեմա</p>
+      <div class="modules-grid" style="padding:0;max-width:none;">
         ${DB.modules.map(m=>{
-          const d = m.topics.filter(t=>prog.completedTopics.includes(t.id)).length;
-          const p = Math.round(d/m.topics.length*100);
-          return `<div style="margin-bottom:12px;">
-            <div class="between" style="font-size:12.5px;margin-bottom:5px;"><span>${m.icon} ${esc(m.title)}</span><b>${p}%</b></div>
-            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${p}%;background:var(--${m.color});"></div></div>
+          const done = completedCountIn(m);
+          return `<div class="mcard">
+            <div class="micon" style="background:var(--${m.color}-bg)">${m.icon}</div>
+            <h3>${esc(m.title)}</h3>
+            <p>${esc(m.desc)}</p>
+            <div class="progress-bar-track" style="margin-bottom:10px;"><div class="progress-bar-fill" style="width:${Math.round(done/m.topics.length*100)}%;background:var(--${m.color});"></div></div>
+            <button class="count-pill" onclick="goto('moduleView',{moduleId:'${m.id}'})">${m.topics.length} թեմա · ${done} ավարտված →</button>
           </div>`;
         }).join('')}
       </div>
-    </div>
-    <div class="panel">
-      <h3>Թեստերի արդյունքներ (վերջին ${last7.length})</h3>
-      ${chartSvg}
-    </div>
-    <div class="panel">
-      <h3>Վերջին ակտիվություն</h3>
-      <div style="font-size:13px;color:var(--text);">${lastActText}</div>
-    </div>
-  </div>`;
-  return appShell(body);
-}
- 
-/* ---------- TEACHER DASHBOARD ---------- */
-let teacherTab = 'students';
-async function teacherDash(){
-  return appShell(await teacherDashBody());
-}
-async function teacherDashBody(){
-  const students = DB.users.filter(u=>u.role==='student');
-  let rows = [];
-  for(const s of students){
-    const prog = await getProgress(s.username);
-    const results = await getResults(s.username);
-    const avg = results.length? Math.round(results.reduce((sum,r)=>sum+r.score/r.total*100,0)/results.length):0;
-    rows.push({username:s.username, fullName:s.fullName, completed:prog.completedTopics.length, testsTaken:results.length, avg, results});
+    </div>`;
+    return CURRENT_USER ? appShell(body) : `${landingNav()}${body}${footer()}`;
   }
-  window.__teacherRows = rows;
-  const totalTopics = allTopics().length;
-  const tabs = [['students','Աշակերտների արդյունքներ'],['content','Նյութերի կառավարում'],['create','Թեմա/Հարց ստեղծել']];
-  return `
-  <div class="page">
-    <h1 class="pagetitle">Ուսուցչի վահանակ</h1>
-    <p class="sub">Հետևեք աշակերտների առաջընթացին և կառավարեք ուսումնական նյութերը</p>
-    <div class="cards-row">
-      <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">🧑‍🎓</div><div><div class="num">${students.length}</div><div class="lbl">Աշակերտ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--green-bg);">📘</div><div><div class="num">${DB.modules.length}</div><div class="lbl">Մոդուլ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">📝</div><div><div class="num">${totalTopics}</div><div class="lbl">Թեմա</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">📊</div><div><div class="num">${rows.reduce((s,r)=>s+r.testsTaken,0)}</div><div class="lbl">Հանձնված թեստեր</div></div></div>
-    </div>
-    <div class="flex gap8" style="margin-bottom:16px;">
-      ${tabs.map(([k,l])=>`<button class="btn ${teacherTab===k?'btn-primary':'btn-outline'} btn-sm" onclick="teacherTab='${k}';render();">${l}</button>`).join('')}
-    </div>
-    ${teacherTab==='students'? teacherStudentsTab(rows, totalTopics) : ''}
-    ${teacherTab==='content'? teacherContentTab() : ''}
-    ${teacherTab==='create'? teacherCreateTab() : ''}
-  </div>`;
-}
- 
-function teacherStudentsTab(rows, totalTopics){
-  return `
-  <div class="panel">
-    <div class="between"><h3>Աշակերտների ցուցակ</h3><button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Արտահանել CSV</button></div>
-    ${rows.length===0?'<div class="empty">Դեռ գրանցված աշակերտ չկա</div>':`
-    <table>
-      <tr><th>Աշակերտ</th><th>Մուտքանուն</th><th>Ավարտված թեմա</th><th>Առաջընթաց</th><th>Հանձնված թեստ</th><th>Միջին արդյունք</th></tr>
-      ${rows.map(r=>`<tr>
-        <td>${esc(r.fullName)}</td><td>${esc(r.username)}</td><td>${r.completed}/${totalTopics}</td>
-        <td><div class="progress-bar-track" style="width:100px;display:inline-block;vertical-align:middle;"><div class="progress-bar-fill" style="width:${Math.round(r.completed/totalTopics*100)}%;background:var(--primary);"></div></div> ${Math.round(r.completed/totalTopics*100)}%</td>
-        <td>${r.testsTaken}</td><td><span class="tag" style="background:${r.avg>=70?'var(--green-bg)':r.avg>=40?'var(--orange-bg)':'var(--red-bg)'};color:${r.avg>=70?'var(--green)':r.avg>=40?'var(--orange)':'var(--red)'};">${r.avg}%</span></td>
-      </tr>`).join('')}
-    </table>`}
-  </div>
-  <div class="panel">
-    <h3>Բոլոր թեստերի արդյունքները</h3>
-    ${rows.every(r=>r.results.length===0)?'<div class="empty">Դեռ թեստ հանձնված չէ</div>':`
-    <table>
-      <tr><th>Աշակերտ</th><th>Մոդուլ</th><th>Արդյունք</th><th>Ամսաթիվ</th></tr>
-      ${rows.flatMap(r=>r.results.map(res=>`<tr><td>${esc(r.fullName)}</td><td>${esc(res.moduleTitle)}</td><td>${res.score}/${res.total}</td><td>${new Date(res.date).toLocaleString('hy-AM')}</td></tr>`)).join('')}
-    </table>`}
-  </div>`;
-}
- 
-function exportCSV(){
-  const rows = window.__teacherRows||[];
-  let csv = 'Անուն,Մուտքանուն,Ավարտված թեմա,Հանձնված թեստ,Միջին արդյունք(%)\n';
-  rows.forEach(r=>{ csv += `"${r.fullName}","${r.username}",${r.completed},${r.testsTaken},${r.avg}\n`; });
-  try{
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'students_results.csv';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    showToast('CSV ֆայլը ներբեռնվեց ✓');
-  }catch(e){ showToast('Ներբեռնումը հաջողված չէ այս միջավայրում'); }
-}
- 
-function teacherContentTab(){
-  return `
-  <div class="panel">
-    <h3>Մոդուլներ և թեմաներ</h3>
-    ${DB.modules.map(m=>`
-      <div style="border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
-        <div class="between"><b>${m.icon} ${esc(m.title)}</b><span class="tag" style="background:var(--${m.color}-bg);color:var(--${m.color});">${m.topics.length} թեմա</span></div>
-        ${m.topics.map(t=>`<div class="between" style="padding:7px 0;border-top:1px solid var(--border);font-size:13px;">
-          <span>• ${esc(t.title)}</span>
-          <button class="btn btn-danger btn-sm" onclick="deleteTopic('${m.id}','${t.id}')">Ջնջել</button>
-        </div>`).join('')}
-      </div>`).join('')}
-  </div>`;
-}
- 
-async function deleteTopic(moduleId, topicId){
-  const m = findModule(moduleId);
-  m.topics = m.topics.filter(t=>t.id!==topicId);
-  await save('app:modules', DB.modules, true);
-  showToast('Թեման ջնջվեց');
-  render();
-}
- 
-function teacherCreateTab(){
-  return `
-  <div class="panel">
-    <h3>➕ Ստեղծել նոր թեմա և թեստի հարց</h3>
-    <div class="field"><label>Մոդուլ</label>
-      <select id="ntModule" class="input">${DB.modules.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('')}</select>
-    </div>
-    <div class="field"><label>Թեմայի անվանում</label><input class="input" id="ntTitle"></div>
-    <div class="field"><label>Տեսական նյութ</label><textarea class="input" id="ntContent" rows="3"></textarea></div>
-    <div class="field"><label>Հարց</label><input class="input" id="ntQuestion"></div>
-    <div class="row2">
-      <div class="field"><label>Տարբերակ 1</label><input class="input" id="ntOpt0"></div>
-      <div class="field"><label>Տարբերակ 2</label><input class="input" id="ntOpt1"></div>
-      <div class="field"><label>Տարբերակ 3</label><input class="input" id="ntOpt2"></div>
-      <div class="field"><label>Տարբերակ 4</label><input class="input" id="ntOpt3"></div>
-    </div>
-    <div class="field"><label>Ճիշտ տարբերակ</label>
-      <select id="ntCorrect" class="input"><option value="0">Տարբերակ 1</option><option value="1">Տարբերակ 2</option><option value="2">Տարբերակ 3</option><option value="3">Տարբերակ 4</option></select>
-    </div>
-    <button class="btn btn-primary" onclick="createTopic()">Ստեղծել թեմա</button>
-  </div>`;
-}
- 
-async function createTopic(){
-  const moduleId = document.getElementById('ntModule').value;
-  const title = document.getElementById('ntTitle').value.trim();
-  const content = document.getElementById('ntContent').value.trim();
-  const question = document.getElementById('ntQuestion').value.trim();
-  const opts = [0,1,2,3].map(i=>document.getElementById('ntOpt'+i).value.trim());
-  const correct = parseInt(document.getElementById('ntCorrect').value);
-  if(!title||!content||!question||opts.some(o=>!o)){ showToast('Խնդրում ենք լրացնել բոլոր դաշտերը'); return; }
-  const m = findModule(moduleId);
-  const id = moduleId+'t'+(m.topics.length+1)+'_'+Date.now();
-  m.topics.push(topic(id, title, content, q(question, opts, correct)));
-  await save('app:modules', DB.modules, true);
-  DB.notifications.push({id:'n'+Date.now(), text:`Նոր թեմա ավելացվեց՝ «${title}» (${m.title})`, date:new Date().toISOString()});
-  await save('app:notifications', DB.notifications, true);
-  showToast('Թեման հաջողությամբ ստեղծվեց ✓');
-  goto('teacherDash');
-}
- 
-/* ---------- ADMIN DASHBOARD ---------- */
-async function adminDash(){
-  const rows = window.__teacherRows || [];
-  const teachers = DB.users.filter(u=>u.role==='teacher');
-  const students = DB.users.filter(u=>u.role==='student');
-  const body = `
-  <div class="page">
-    <h1 class="pagetitle">Ադմինիստրատորի վահանակ</h1>
-    <p class="sub">Օգտատերերի և կայքի կառավարում</p>
-    <div class="cards-row">
-      <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">👤</div><div><div class="num">${DB.users.length}</div><div class="lbl">Ընդհանուր օգտատեր</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--green-bg);">🧑‍🎓</div><div><div class="num">${students.length}</div><div class="lbl">Աշակերտ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">🧑‍🏫</div><div><div class="num">${teachers.length}</div><div class="lbl">Ուսուցիչ</div></div></div>
-      <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">💬</div><div><div class="num">${DB.feedback.length}</div><div class="lbl">Հաղորդագրություն</div></div></div>
-    </div>
-    <div class="panel">
-      <h3>Օգտատերերի կառավարում</h3>
-      <table>
-        <tr><th>Անուն</th><th>Մուտքանուն</th><th>Դեր</th><th>Գործողություն</th></tr>
-        ${DB.users.map(u=>`<tr>
-          <td>${esc(u.fullName)}</td><td>${esc(u.username)}</td>
-          <td><select class="input" style="padding:4px 8px;width:auto;" onchange="changeRole('${u.username}',this.value)">
-            ${['student','teacher','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${({student:'Աշակերտ',teacher:'Ուսուցիչ',admin:'Ադմին'})[r]}</option>`).join('')}
-          </select></td>
-          <td>${u.username!==CURRENT_USER.username?`<button class="btn btn-danger btn-sm" onclick="deleteUser('${u.username}')">Ջնջել</button>`:'<span class="sub">(դուք)</span>'}</td>
-        </tr>`).join('')}
-      </table>
-    </div>
-    <div class="panel">
-      <h3>Հաղորդագրություններ (Արձագանք)</h3>
-      ${DB.feedback.length===0?'<div class="empty">Հաղորդագրություններ չկան</div>':DB.feedback.slice().reverse().map(f=>`
-        <div style="border-top:1px solid var(--border);padding:10px 0;font-size:13px;">
-          <b>${esc(f.name)}</b> ${f.email?'· '+esc(f.email):''}<br>${esc(f.message)}
-          <div class="sub" style="margin-top:3px;">${new Date(f.date).toLocaleString('hy-AM')}</div>
-        </div>`).join('')}
-    </div>
-  </div>`;
-  return appShell(body);
-}
- 
-async function changeRole(username, role){
-  const u = DB.users.find(x=>x.username===username);
-  u.role = role;
-  await save('app:users', DB.users, true);
-  showToast('Դերը թարմացվեց');
-  render();
-}
-async function deleteUser(username){
-  DB.users = DB.users.filter(u=>u.username!==username);
-  await save('app:users', DB.users, true);
-  showToast('Օգտատերը ջնջվեց');
-  render();
-}
- 
-/* ============================ MAIN RENDER ============================ */
-async function ensureCaches(){
-  if(!window.__progressCache) window.__progressCache = {};
-  if(!window.__resultsCache) window.__resultsCache = {};
-  if(CURRENT_USER && !window.__progressCache[CURRENT_USER.username]){
-    window.__progressCache[CURRENT_USER.username] = await getProgress(CURRENT_USER.username);
+  function completedCountIn(m){
+    if(!CURRENT_USER) return 0;
+    const cached = window.__progressCache && window.__progressCache[CURRENT_USER.username];
+    if(!cached) return 0;
+    return m.topics.filter(t=>cached.completedTopics.includes(t.id)).length;
   }
-  if(CURRENT_USER && !window.__resultsCache[CURRENT_USER.username]){
-    window.__resultsCache[CURRENT_USER.username] = await getResults(CURRENT_USER.username);
+  
+  /* ---------- MODULE VIEW (topic list) ---------- */
+  function moduleView(){
+    const m = findModule(STATE.moduleId);
+    if(!m) return modulesPage();
+    const cached = window.__progressCache && CURRENT_USER ? window.__progressCache[CURRENT_USER.username] : null;
+    const body = `
+    <div class="page">
+      <a href="#" onclick="goto('modules');return false;" style="font-size:12.5px;color:var(--muted);">← Բոլոր մոդուլները</a>
+      <div class="module-header" style="margin-top:10px;">
+        <div class="micon" style="background:var(--${m.color}-bg);width:46px;height:46px;">${m.icon}</div>
+        <div><h1 class="pagetitle" style="margin:0;">${esc(m.title)}</h1><p class="sub" style="margin:2px 0 0;">${esc(m.desc)}</p></div>
+      </div>
+      <div class="panel">
+        <h3>Թեմաներ (${m.topics.length})</h3>
+        ${m.topics.map((t,i)=>{
+          const done = cached && cached.completedTopics.includes(t.id);
+          return `<div class="topic-list-item ${done?'done':''}" onclick="goto('topicView',{moduleId:'${m.id}',topicId:'${t.id}'})">
+            <div>${i+1}. ${esc(t.title)}</div>
+            <div>${done?'✅ ավարտված':'▶'}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+    return appShell(body);
   }
-}
- 
-async function render(){
-  await ensureCaches();
-  const root = document.getElementById('root');
-  let html = '';
-  const needsAuth = ['modules','tests','progress','teacherDash','adminDash','moduleView','topicView','testTake'];
-  if(needsAuth.includes(STATE.page) && !CURRENT_USER){ STATE.page='auth'; }
-  if(STATE.page!=='teacherDash' && STATE.page!=='adminDash'){
-    switch(STATE.page){
-      case 'home': html = home(); break;
-      case 'about': html = about(); break;
-      case 'modulesPublic': case 'modules': html = modulesPage(); break;
-      case 'testsPublic': html = `${landingNav()}<div class="page" style="max-width:760px;margin:0 auto;"><h1 class="pagetitle">Թեստեր</h1><p class="sub">Մուտք գործեք՝ թեստերին մասնակցելու համար</p><button class="btn btn-primary" onclick="goto('auth')">🔑 Մուտք գործել</button></div>${footer()}`; break;
-      case 'tests': html = testsPage(); break;
-      case 'progress': html = progressPage(); break;
-      case 'moduleView': html = moduleView(); break;
-      case 'topicView': html = topicView(); break;
-      case 'testTake': html = testTake(); break;
-      case 'auth': html = authPage(); break;
-      default: html = home();
+  
+  /* ---------- TOPIC VIEW (lesson) ---------- */
+  function topicView(){
+    const found = findTopic(STATE.topicId);
+    if(!found) return moduleView();
+    const {topic:t, module:m} = found;
+    const idx = m.topics.findIndex(x=>x.id===t.id);
+    const prev = m.topics[idx-1], next = m.topics[idx+1];
+    const cached = window.__progressCache ? window.__progressCache[CURRENT_USER.username] : {completedTopics:[]};
+    const done = cached.completedTopics.includes(t.id);
+    const qa = STATE.quizAnswers[t.id];
+    const submitted = STATE.quizSubmitted===t.id;
+    const body = `
+    <div class="page" style="max-width:760px;">
+      <a href="#" onclick="goto('moduleView',{moduleId:'${m.id}'});return false;" style="font-size:12.5px;color:var(--muted);">← ${esc(m.title)}</a>
+      <h1 class="pagetitle" style="margin-top:10px;">${esc(t.title)}</h1>
+      <div class="panel">
+        <p style="line-height:1.85;font-size:14.5px;">${esc(t.content)}</p>
+      </div>
+      <div class="panel">
+        <h3>📝 Ինքնաստուգման հարց</h3>
+        <p style="font-weight:600;font-size:13.5px;margin-bottom:12px;">${esc(t.quiz.question)}</p>
+        ${t.quiz.options.map((opt,i)=>{
+          let cls='quiz-opt';
+          if(submitted){
+            if(i===t.quiz.correct) cls+=' correct';
+            else if(qa===i) cls+=' wrong';
+          } else if(qa===i) cls+=' selected';
+          return `<div class="${cls}" onclick="${submitted?'':`STATE.quizAnswers['${t.id}']=${i};render();`}">${esc(opt)}</div>`;
+        }).join('')}
+        ${!submitted? `<button class="btn btn-primary btn-sm" style="margin-top:8px;" ${qa===undefined?'disabled':''} onclick="STATE.quizSubmitted='${t.id}';render();">Ստուգել պատասխանը</button>`
+        : `<div style="margin-top:8px;font-size:13px;color:${qa===t.quiz.correct?'var(--green)':'var(--red)'};font-weight:600;">${qa===t.quiz.correct?'✓ Ճիշտ է!':'✗ Սխալ է, ճիշտ պատասխանը նշված է կանաչով։'}</div>`}
+      </div>
+      <div class="between" style="margin-top:6px;">
+        <div>${prev?`<button class="btn btn-outline" onclick="STATE.quizSubmitted=false;goto('topicView',{moduleId:'${m.id}',topicId:'${prev.id}'})">← Նախորդ թեմա</button>`:''}</div>
+        <div class="flex gap8">
+          <button class="btn ${done?'btn-outline':'btn-ghost'}" onclick="markComplete('${m.id}','${t.id}')">${done?'✅ Ավարտված':'Նշել որպես ավարտված'}</button>
+          ${next?`<button class="btn btn-primary" onclick="STATE.quizSubmitted=false;goto('topicView',{moduleId:'${m.id}',topicId:'${next.id}'})">Հաջորդ թեմա →</button>`:`<button class="btn btn-primary" onclick="goto('moduleView',{moduleId:'${m.id}'})">Ավարտել մոդուլը ✓</button>`}
+        </div>
+      </div>
+    </div>`;
+    return appShell(body);
+  }
+  
+  async function markComplete(moduleId, topicId){
+    const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
+    if(!prog.completedTopics.includes(topicId)){
+      prog.completedTopics.push(topicId);
+      prog.lastActivity = {type:'topic', topicId, moduleId, date:new Date().toISOString()};
+      window.__progressCache[CURRENT_USER.username]=prog;
+      await saveProgress(CURRENT_USER.username, prog);
+      showToast('Թեման նշվեց որպես ավարտված ✓');
     }
-    root.innerHTML = html + (STATE.toast?`<div class="toast">${esc(STATE.toast)}</div>`:'');
-  } else {
-    root.innerHTML = '<div class="page center" style="min-height:100vh;">Բեռնում...</div>';
-    const html2 = STATE.page==='teacherDash' ? await teacherDash() : await adminDash();
-    root.innerHTML = html2 + (STATE.toast?`<div class="toast">${esc(STATE.toast)}</div>`:'');
+    render();
   }
-}
- 
-init();
-</script>
-</body>
-</html>
+  
+  /* ---------- TESTS PAGE ---------- */
+  function testsPage(){
+    const results = window.__resultsCache ? (window.__resultsCache[CURRENT_USER?.username]||[]) : [];
+    const body = `
+    <div class="page">
+      <h1 class="pagetitle">Թեստեր</h1>
+      <p class="sub">Ստուգիր քո գիտելիքները ըստ մոդուլների</p>
+      <div class="modules-grid" style="padding:0;max-width:none;">
+        ${DB.modules.map(m=>{
+          const best = results.filter(r=>r.moduleId===m.id).sort((a,b)=>b.score-a.score)[0];
+          return `<div class="mcard">
+            <div class="micon" style="background:var(--${m.color}-bg)">${m.icon}</div>
+            <h3>${esc(m.title)} — թեստ</h3>
+            <p>${m.topics.length} հարց · ${best? 'Լավագույն արդյունք '+best.score+'/'+best.total : 'Չի անցել'}</p>
+            <button class="count-pill" onclick="goto('testTake',{testModuleId:'${m.id}',quizAnswers:{},quizSubmitted:false})">${best?'Կրկնել թեստը':'Սկսել թեստը'} →</button>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+    return appShell(body);
+  }
+  
+  function testTake(){
+    const m = findModule(STATE.testModuleId);
+    if(!m) return testsPage();
+    const submitted = STATE.quizSubmitted===true;
+    let score=0;
+    if(submitted){ m.topics.forEach(t=>{ if(STATE.quizAnswers[t.id]===t.quiz.correct) score++; }); }
+    const body = `
+    <div class="page" style="max-width:760px;">
+      <a href="#" onclick="goto('tests');return false;" style="font-size:12.5px;color:var(--muted);">← Բոլոր թեստերը</a>
+      <h1 class="pagetitle" style="margin-top:10px;">${esc(m.title)} — թեստ</h1>
+      <p class="sub">${m.topics.length} հարց</p>
+      ${m.topics.map((t,i)=>{
+        const qa = STATE.quizAnswers[t.id];
+        return `<div class="panel">
+          <p style="font-weight:600;font-size:13.5px;margin-bottom:12px;">${i+1}. ${esc(t.quiz.question)}</p>
+          ${t.quiz.options.map((opt,oi)=>{
+            let cls='quiz-opt';
+            if(submitted){ if(oi===t.quiz.correct) cls+=' correct'; else if(qa===oi) cls+=' wrong'; }
+            else if(qa===oi) cls+=' selected';
+            return `<div class="${cls}" onclick="${submitted?'':`STATE.quizAnswers['${t.id}']=${oi};render();`}">${esc(opt)}</div>`;
+          }).join('')}
+        </div>`;
+      }).join('')}
+      ${!submitted ?
+        `<button class="btn btn-primary" style="width:100%;" ${Object.keys(STATE.quizAnswers).length<m.topics.length?'disabled':''} onclick="submitTest('${m.id}')">Հանձնել թեստը</button>
+        <p class="sub" style="text-align:center;margin-top:8px;">${Object.keys(STATE.quizAnswers).length}/${m.topics.length} հարցին պատասխանված</p>`
+        : `<div class="panel center" style="flex-direction:column;">
+            <div style="font-size:30px;font-weight:800;color:var(--primary);">${score}/${m.topics.length}</div>
+            <div class="sub">Ձեր արդյունքը պահպանվեց</div>
+            <div class="flex gap12" style="margin-top:10px;">
+              <button class="btn btn-outline" onclick="goto('testTake',{testModuleId:'${m.id}',quizAnswers:{},quizSubmitted:false})">Կրկնել թեստը</button>
+              <button class="btn btn-primary" onclick="goto('progress')">Տեսնել առաջընթացը</button>
+            </div>
+          </div>`}
+    </div>`;
+    return appShell(body);
+  }
+  
+  async function submitTest(moduleId){
+    const m = findModule(moduleId);
+    let score=0;
+    m.topics.forEach(t=>{ if(STATE.quizAnswers[t.id]===t.quiz.correct) score++; });
+    STATE.quizSubmitted = true;
+    const results = window.__resultsCache[CURRENT_USER.username] || [];
+    results.push({moduleId, moduleTitle:m.title, score, total:m.topics.length, date:new Date().toISOString()});
+    window.__resultsCache[CURRENT_USER.username]=results;
+    await saveResults(CURRENT_USER.username, results);
+    const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
+    prog.lastActivity = {type:'test', moduleId, score, total:m.topics.length, date:new Date().toISOString()};
+    window.__progressCache[CURRENT_USER.username]=prog;
+    await saveProgress(CURRENT_USER.username, prog);
+    render();
+  }
+  
+  /* ---------- PROGRESS PAGE ---------- */
+  function progressPage(){
+    const prog = window.__progressCache[CURRENT_USER.username] || {completedTopics:[]};
+    const results = window.__resultsCache[CURRENT_USER.username] || [];
+    const totalTopics = allTopics().length;
+    const completed = prog.completedTopics.length;
+    const pct = totalTopics? Math.round(completed/totalTopics*100):0;
+    const avgScore = results.length? Math.round(results.reduce((s,r)=>s+r.score/r.total*100,0)/results.length):0;
+  
+    const donutR=70, circ=2*Math.PI*donutR;
+    const doneLen = circ*pct/100;
+  
+    const last7 = results.slice(-7);
+    const chartW=540, chartH=200, pad=30;
+    let chartSvg='<div class="empty">Դեռ թեստ չեք հանձնել</div>';
+    if(last7.length){
+      const maxScore = 100;
+      const stepX = last7.length>1 ? (chartW-2*pad)/(last7.length-1) : 0;
+      const pts = last7.map((r,i)=>{
+        const pctScore = Math.round(r.score/r.total*100);
+        const x = pad + i*stepX;
+        const y = chartH-pad - (pctScore/maxScore)*(chartH-2*pad);
+        return {x,y,pctScore};
+      });
+      const line = pts.map(p=>`${p.x},${p.y}`).join(' ');
+      chartSvg = `<svg viewBox="0 0 ${chartW} ${chartH}" style="width:100%;height:200px;">
+        ${[0,25,50,75,100].map(v=>{const y=chartH-pad-(v/100)*(chartH-2*pad); return `<line x1="${pad}" y1="${y}" x2="${chartW-pad}" y2="${y}" stroke="#EEF0F5"/><text x="2" y="${y+4}" font-size="9" fill="#9AA">${v}%</text>`}).join('')}
+        <polyline points="${line}" fill="none" stroke="var(--primary)" stroke-width="2.5"/>
+        ${pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--primary)"/>`).join('')}
+      </svg>`;
+    }
+  
+    const lastAct = prog.lastActivity;
+    let lastActText = 'Դեռ ակտիվություն չկա';
+    if(lastAct){
+      if(lastAct.type==='topic'){ const tt=findTopic(lastAct.topicId); lastActText = `Ավարտեցիք «${esc(tt?tt.topic.title:'')}» թեման՝ ${new Date(lastAct.date).toLocaleDateString('hy-AM')}`; }
+      else { lastActText = `Հանձնեցիք թեստը (${lastAct.score}/${lastAct.total}) ${new Date(lastAct.date).toLocaleDateString('hy-AM')}`; }
+    }
+  
+    const body = `
+    <div class="page">
+      <h1 class="pagetitle">Իմ առաջընթացը</h1>
+      <p class="sub">Հետևեք ձեր առաջընթացին և արդյունքներին</p>
+      <div class="cards-row">
+        <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">📘</div><div><div class="num">${totalTopics}</div><div class="lbl">Ընդհանուր թեմաներ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--green-bg);">✅</div><div><div class="num">${completed}</div><div class="lbl">Ավարտված թեմաներ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">📝</div><div><div class="num">${results.length}</div><div class="lbl">Հանձնված թեստեր</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">⭐</div><div><div class="num">${avgScore}%</div><div class="lbl">Միջին արդյունք</div></div></div>
+      </div>
+      <div class="row2">
+        <div class="panel center" style="flex-direction:column;">
+          <h3 style="align-self:flex-start;">Ընդհանուր առաջընթաց</h3>
+          <svg viewBox="0 0 180 180" width="180" height="180">
+            <circle cx="90" cy="90" r="${donutR}" fill="none" stroke="#EEF0F5" stroke-width="16"/>
+            <circle cx="90" cy="90" r="${donutR}" fill="none" stroke="var(--primary)" stroke-width="16" stroke-dasharray="${doneLen} ${circ}" stroke-linecap="round" transform="rotate(-90 90 90)"/>
+            <text x="90" y="84" text-anchor="middle" font-size="26" font-weight="800" fill="var(--text)">${pct}%</text>
+            <text x="90" y="104" text-anchor="middle" font-size="10" fill="var(--muted)">ավարտված</text>
+          </svg>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:8px;">${completed} / ${totalTopics} թեմա ավարտված</div>
+        </div>
+        <div class="panel">
+          <h3>Մոդուլների առաջընթաց</h3>
+          ${DB.modules.map(m=>{
+            const d = m.topics.filter(t=>prog.completedTopics.includes(t.id)).length;
+            const p = Math.round(d/m.topics.length*100);
+            return `<div style="margin-bottom:12px;">
+              <div class="between" style="font-size:12.5px;margin-bottom:5px;"><span>${m.icon} ${esc(m.title)}</span><b>${p}%</b></div>
+              <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${p}%;background:var(--${m.color});"></div></div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Թեստերի արդյունքներ (վերջին ${last7.length})</h3>
+        ${chartSvg}
+      </div>
+      <div class="panel">
+        <h3>Վերջին ակտիվություն</h3>
+        <div style="font-size:13px;color:var(--text);">${lastActText}</div>
+      </div>
+    </div>`;
+    return appShell(body);
+  }
+  
+  /* ---------- TEACHER DASHBOARD ---------- */
+  let teacherTab = 'students';
+  async function teacherDash(){
+    return appShell(await teacherDashBody());
+  }
+  async function teacherDashBody(){
+    const students = DB.users.filter(u=>u.role==='student');
+    let rows = [];
+    for(const s of students){
+      const prog = await getProgress(s.username);
+      const results = await getResults(s.username);
+      const avg = results.length? Math.round(results.reduce((sum,r)=>sum+r.score/r.total*100,0)/results.length):0;
+      rows.push({username:s.username, fullName:s.fullName, completed:prog.completedTopics.length, testsTaken:results.length, avg, results});
+    }
+    window.__teacherRows = rows;
+    const totalTopics = allTopics().length;
+    const tabs = [['students','Աշակերտների արդյունքներ'],['content','Նյութերի կառավարում'],['create','Թեմա/Հարց ստեղծել']];
+    return `
+    <div class="page">
+      <h1 class="pagetitle">Ուսուցչի վահանակ</h1>
+      <p class="sub">Հետևեք աշակերտների առաջընթացին և կառավարեք ուսումնական նյութերը</p>
+      <div class="cards-row">
+        <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">🧑‍🎓</div><div><div class="num">${students.length}</div><div class="lbl">Աշակերտ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--green-bg);">📘</div><div><div class="num">${DB.modules.length}</div><div class="lbl">Մոդուլ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">📝</div><div><div class="num">${totalTopics}</div><div class="lbl">Թեմա</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">📊</div><div><div class="num">${rows.reduce((s,r)=>s+r.testsTaken,0)}</div><div class="lbl">Հանձնված թեստեր</div></div></div>
+      </div>
+      <div class="flex gap8" style="margin-bottom:16px;">
+        ${tabs.map(([k,l])=>`<button class="btn ${teacherTab===k?'btn-primary':'btn-outline'} btn-sm" onclick="teacherTab='${k}';render();">${l}</button>`).join('')}
+      </div>
+      ${teacherTab==='students'? teacherStudentsTab(rows, totalTopics) : ''}
+      ${teacherTab==='content'? teacherContentTab() : ''}
+      ${teacherTab==='create'? teacherCreateTab() : ''}
+    </div>`;
+  }
+  
+  function teacherStudentsTab(rows, totalTopics){
+    return `
+    <div class="panel">
+      <div class="between"><h3>Աշակերտների ցուցակ</h3><button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Արտահանել CSV</button></div>
+      ${rows.length===0?'<div class="empty">Դեռ գրանցված աշակերտ չկա</div>':`
+      <table>
+        <tr><th>Աշակերտ</th><th>Մուտքանուն</th><th>Ավարտված թեմա</th><th>Առաջընթաց</th><th>Հանձնված թեստ</th><th>Միջին արդյունք</th></tr>
+        ${rows.map(r=>`<tr>
+          <td>${esc(r.fullName)}</td><td>${esc(r.username)}</td><td>${r.completed}/${totalTopics}</td>
+          <td><div class="progress-bar-track" style="width:100px;display:inline-block;vertical-align:middle;"><div class="progress-bar-fill" style="width:${Math.round(r.completed/totalTopics*100)}%;background:var(--primary);"></div></div> ${Math.round(r.completed/totalTopics*100)}%</td>
+          <td>${r.testsTaken}</td><td><span class="tag" style="background:${r.avg>=70?'var(--green-bg)':r.avg>=40?'var(--orange-bg)':'var(--red-bg)'};color:${r.avg>=70?'var(--green)':r.avg>=40?'var(--orange)':'var(--red)'};">${r.avg}%</span></td>
+        </tr>`).join('')}
+      </table>`}
+    </div>
+    <div class="panel">
+      <h3>Բոլոր թեստերի արդյունքները</h3>
+      ${rows.every(r=>r.results.length===0)?'<div class="empty">Դեռ թեստ հանձնված չէ</div>':`
+      <table>
+        <tr><th>Աշակերտ</th><th>Մոդուլ</th><th>Արդյունք</th><th>Ամսաթիվ</th></tr>
+        ${rows.flatMap(r=>r.results.map(res=>`<tr><td>${esc(r.fullName)}</td><td>${esc(res.moduleTitle)}</td><td>${res.score}/${res.total}</td><td>${new Date(res.date).toLocaleString('hy-AM')}</td></tr>`)).join('')}
+      </table>`}
+    </div>`;
+  }
+  
+  function exportCSV(){
+    const rows = window.__teacherRows||[];
+    let csv = 'Անուն,Մուտքանուն,Ավարտված թեմա,Հանձնված թեստ,Միջին արդյունք(%)\n';
+    rows.forEach(r=>{ csv += `"${r.fullName}","${r.username}",${r.completed},${r.testsTaken},${r.avg}\n`; });
+    try{
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'students_results.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      showToast('CSV ֆայլը ներբեռնվեց ✓');
+    }catch(e){ showToast('Ներբեռնումը հաջողված չէ այս միջավայրում'); }
+  }
+  
+  function teacherContentTab(){
+    return `
+    <div class="panel">
+      <h3>Մոդուլներ և թեմաներ</h3>
+      ${DB.modules.map(m=>`
+        <div style="border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;">
+          <div class="between"><b>${m.icon} ${esc(m.title)}</b><span class="tag" style="background:var(--${m.color}-bg);color:var(--${m.color});">${m.topics.length} թեմա</span></div>
+          ${m.topics.map(t=>`<div class="between" style="padding:7px 0;border-top:1px solid var(--border);font-size:13px;">
+            <span>• ${esc(t.title)}</span>
+            <button class="btn btn-danger btn-sm" onclick="deleteTopic('${m.id}','${t.id}')">Ջնջել</button>
+          </div>`).join('')}
+        </div>`).join('')}
+    </div>`;
+  }
+  
+  async function deleteTopic(moduleId, topicId){
+    const m = findModule(moduleId);
+    m.topics = m.topics.filter(t=>t.id!==topicId);
+    await save('app:modules', DB.modules, true);
+    showToast('Թեման ջնջվեց');
+    render();
+  }
+  
+  function teacherCreateTab(){
+    return `
+    <div class="panel">
+      <h3>➕ Ստեղծել նոր թեմա և թեստի հարց</h3>
+      <div class="field"><label>Մոդուլ</label>
+        <select id="ntModule" class="input">${DB.modules.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('')}</select>
+      </div>
+      <div class="field"><label>Թեմայի անվանում</label><input class="input" id="ntTitle"></div>
+      <div class="field"><label>Տեսական նյութ</label><textarea class="input" id="ntContent" rows="3"></textarea></div>
+      <div class="field"><label>Հարց</label><input class="input" id="ntQuestion"></div>
+      <div class="row2">
+        <div class="field"><label>Տարբերակ 1</label><input class="input" id="ntOpt0"></div>
+        <div class="field"><label>Տարբերակ 2</label><input class="input" id="ntOpt1"></div>
+        <div class="field"><label>Տարբերակ 3</label><input class="input" id="ntOpt2"></div>
+        <div class="field"><label>Տարբերակ 4</label><input class="input" id="ntOpt3"></div>
+      </div>
+      <div class="field"><label>Ճիշտ տարբերակ</label>
+        <select id="ntCorrect" class="input"><option value="0">Տարբերակ 1</option><option value="1">Տարբերակ 2</option><option value="2">Տարբերակ 3</option><option value="3">Տարբերակ 4</option></select>
+      </div>
+      <button class="btn btn-primary" onclick="createTopic()">Ստեղծել թեմա</button>
+    </div>`;
+  }
+  
+  async function createTopic(){
+    const moduleId = document.getElementById('ntModule').value;
+    const title = document.getElementById('ntTitle').value.trim();
+    const content = document.getElementById('ntContent').value.trim();
+    const question = document.getElementById('ntQuestion').value.trim();
+    const opts = [0,1,2,3].map(i=>document.getElementById('ntOpt'+i).value.trim());
+    const correct = parseInt(document.getElementById('ntCorrect').value);
+    if(!title||!content||!question||opts.some(o=>!o)){ showToast('Խնդրում ենք լրացնել բոլոր դաշտերը'); return; }
+    const m = findModule(moduleId);
+    const id = moduleId+'t'+(m.topics.length+1)+'_'+Date.now();
+    m.topics.push(topic(id, title, content, q(question, opts, correct)));
+    await save('app:modules', DB.modules, true);
+    DB.notifications.push({id:'n'+Date.now(), text:`Նոր թեմա ավելացվեց՝ «${title}» (${m.title})`, date:new Date().toISOString()});
+    await save('app:notifications', DB.notifications, true);
+    showToast('Թեման հաջողությամբ ստեղծվեց ✓');
+    goto('teacherDash');
+  }
+  
+  /* ---------- ADMIN DASHBOARD ---------- */
+  async function adminDash(){
+    const rows = window.__teacherRows || [];
+    const teachers = DB.users.filter(u=>u.role==='teacher');
+    const students = DB.users.filter(u=>u.role==='student');
+    const body = `
+    <div class="page">
+      <h1 class="pagetitle">Ադմինիստրատորի վահանակ</h1>
+      <p class="sub">Օգտատերերի և կայքի կառավարում</p>
+      <div class="cards-row">
+        <div class="stat-card"><div class="ic" style="background:var(--blue-bg);">👤</div><div><div class="num">${DB.users.length}</div><div class="lbl">Ընդհանուր օգտատեր</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--green-bg);">🧑‍🎓</div><div><div class="num">${students.length}</div><div class="lbl">Աշակերտ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--orange-bg);">🧑‍🏫</div><div><div class="num">${teachers.length}</div><div class="lbl">Ուսուցիչ</div></div></div>
+        <div class="stat-card"><div class="ic" style="background:var(--purple-bg);">💬</div><div><div class="num">${DB.feedback.length}</div><div class="lbl">Հաղորդագրություն</div></div></div>
+      </div>
+      <div class="panel">
+        <h3>Օգտատերերի կառավարում</h3>
+        <table>
+          <tr><th>Անուն</th><th>Մուտքանուն</th><th>Դեր</th><th>Գործողություն</th></tr>
+          ${DB.users.map(u=>`<tr>
+            <td>${esc(u.fullName)}</td><td>${esc(u.username)}</td>
+            <td><select class="input" style="padding:4px 8px;width:auto;" onchange="changeRole('${u.username}',this.value)">
+              ${['student','teacher','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${({student:'Աշակերտ',teacher:'Ուսուցիչ',admin:'Ադմին'})[r]}</option>`).join('')}
+            </select></td>
+            <td>${u.username!==CURRENT_USER.username?`<button class="btn btn-danger btn-sm" onclick="deleteUser('${u.username}')">Ջնջել</button>`:'<span class="sub">(դուք)</span>'}</td>
+          </tr>`).join('')}
+        </table>
+      </div>
+      <div class="panel">
+        <h3>Հաղորդագրություններ (Արձագանք)</h3>
+        ${DB.feedback.length===0?'<div class="empty">Հաղորդագրություններ չկան</div>':DB.feedback.slice().reverse().map(f=>`
+          <div style="border-top:1px solid var(--border);padding:10px 0;font-size:13px;">
+            <b>${esc(f.name)}</b> ${f.email?'· '+esc(f.email):''}<br>${esc(f.message)}
+            <div class="sub" style="margin-top:3px;">${new Date(f.date).toLocaleString('hy-AM')}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+    return appShell(body);
+  }
+  
+  async function changeRole(username, role){
+    const u = DB.users.find(x=>x.username===username);
+    u.role = role;
+    await save('app:users', DB.users, true);
+    showToast('Դերը թարմացվեց');
+    render();
+  }
+  async function deleteUser(username){
+    DB.users = DB.users.filter(u=>u.username!==username);
+    await save('app:users', DB.users, true);
+    showToast('Օգտատերը ջնջվեց');
+    render();
+  }
+  
+  /* ============================ MAIN RENDER ============================ */
+  async function ensureCaches(){
+    if(!window.__progressCache) window.__progressCache = {};
+    if(!window.__resultsCache) window.__resultsCache = {};
+    if(CURRENT_USER && !window.__progressCache[CURRENT_USER.username]){
+      window.__progressCache[CURRENT_USER.username] = await getProgress(CURRENT_USER.username);
+    }
+    if(CURRENT_USER && !window.__resultsCache[CURRENT_USER.username]){
+      window.__resultsCache[CURRENT_USER.username] = await getResults(CURRENT_USER.username);
+    }
+  }
+  
+  async function render(){
+    await ensureCaches();
+    const root = document.getElementById('root');
+    let html = '';
+    const needsAuth = ['modules','tests','progress','teacherDash','adminDash','moduleView','topicView','testTake'];
+    if(needsAuth.includes(STATE.page) && !CURRENT_USER){ STATE.page='auth'; }
+    if(STATE.page!=='teacherDash' && STATE.page!=='adminDash'){
+      switch(STATE.page){
+        case 'home': html = home(); break;
+        case 'about': html = about(); break;
+        case 'modulesPublic': case 'modules': html = modulesPage(); break;
+        case 'testsPublic': html = `${landingNav()}<div class="page" style="max-width:760px;margin:0 auto;"><h1 class="pagetitle">Թեստեր</h1><p class="sub">Մուտք գործեք՝ թեստերին մասնակցելու համար</p><button class="btn btn-primary" onclick="goto('auth')">🔑 Մուտք գործել</button></div>${footer()}`; break;
+        case 'tests': html = testsPage(); break;
+        case 'progress': html = progressPage(); break;
+        case 'moduleView': html = moduleView(); break;
+        case 'topicView': html = topicView(); break;
+        case 'testTake': html = testTake(); break;
+        case 'auth': html = authPage(); break;
+        default: html = home();
+      }
+      root.innerHTML = html + (STATE.toast?`<div class="toast">${esc(STATE.toast)}</div>`:'');
+    } else {
+      root.innerHTML = '<div class="page center" style="min-height:100vh;">Բեռնում...</div>';
+      const html2 = STATE.page==='teacherDash' ? await teacherDash() : await adminDash();
+      root.innerHTML = html2 + (STATE.toast?`<div class="toast">${esc(STATE.toast)}</div>`:'');
+    }
+  }
+  
+  init();
+  </script>
+  </body>
+  <!-- </html> <div class="hint-box">Փորձարկման հաշիվներ՝<br>Աշակերտ՝ student1 / student123<br>Ուսուցիչ՝ teacher1 / teacher123<br>Ադմին՝ admin / admin123</div>
+        <div style="text-align:center;margin-top:14px;"><a href="#" onclick="goto('home');return false;" style="font-size:12.5px;color:var(--muted);">← Վերադառնալ գլխավոր էջ</a></div> -->
