@@ -467,8 +467,7 @@ function authPage(){
       </div>
       ${STATE.authTab==='login'? loginForm() : registerForm()}
       ${STATE.authError? `<div style="color:var(--red);font-size:12.5px;margin-top:10px;">${esc(STATE.authError)}</div>`:''}
-      <div class="hint-box">Փորձարկման հաշիվներ՝<br>Աշակերտ՝ student1 / student123<br>Ուսուցիչ՝ teacher1 / teacher123<br>Ադմին՝ admin / admin123</div>
-      <div style="text-align:center;margin-top:14px;"><a href="#" onclick="goto('home');return false;" style="font-size:12.5px;color:var(--muted);">← Վերադառնալ գլխավոր էջ</a></div>
+     
     </div>
   </div>`;
 }
